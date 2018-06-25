@@ -1,0 +1,238 @@
+<apex:component controller="ProductSaleController" allowDML="true">
+<apex:attribute name="viewM" assignTo="{!view}" description="" type="String" required="true"/>
+<script>
+    createNewSaleJS = function(){
+        $('#saleList').hide();
+        $('.daypager').hide();
+        //$('#clinicUseList').hide();
+        $('#sale').show();
+       // alert('klk');
+    }
+    saveSaleJS = function(){
+        var pId =$('.prod').val();
+        if(pId==''){
+            alert('Please select product');
+            return;
+        }
+        saveSaleFunc();
+    }
+    deleteSaleJS = function(id){
+        var del = confirm('Are you sure you want to delete this record?')
+        if (del)
+            deleteSaleFunc(id);
+    }
+    
+    setSelectedSaleJS = function(){
+        $('#saleList').hide();        
+        $('#sale').show();
+        $('.daypager').hide();
+    }
+    
+    cancelSaleJS = function(){
+        var v = '{!view}';
+        
+        $('#saleList').show();        
+        $('#sale').hide();
+        $('.daypager').show();
+    }
+    
+    getProductSalesJS = function(){
+        getProductSalesFunc();
+    }
+    
+    var dy=1, mo=1, yr=2016;
+    getDailyProductSale= function(d,m,y){
+        getDailyProductSaleFunc(d,m,y);
+        dy=d; mo=m; yr=y;
+        return false;
+    }
+    
+    
+    getMonthlyProductSale= function(m,y){
+        getMonthlyProductSaleFunc(m,y);
+        mo=m; yr=y;
+        return false;
+    }
+    
+    confirmProductSale = function(){
+        $('#div_confirm_product_sale').modal('show');
+    }
+    
+    refreshConfirmedRecords= function(t){
+        if(t=='product_sale')
+            getDailyProductSaleFunc(dy,mo,yr);
+    }
+    
+</script>
+
+<div id="div_confirm_product_sale" class="modal fade confirm-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Product sale</h4>
+      </div>
+      <c:confirmation ptype="day" pobjectType="product_sale" pdateStr="{!selecteddate}" />
+    </div>
+
+  </div>
+</div>
+
+<apex:form id="sales">
+<apex:actionFunction name="getDailyProductSaleFunc" action="{!getdailyRecords}" rerender="salesListPanel" oncomplete="setPagingPS()">
+<apex:param value="" name="d"/>
+<apex:param value="" name="m"/>
+<apex:param value="" name="y"/>
+</apex:actionFunction>
+
+<apex:actionFunction name="getMonthlyProductSaleFunc" action="{!getMonthlyRecords}" rerender="salesListPanel" oncomplete="setPagingPS()">
+<apex:param value="" name="m"/>
+<apex:param value="" name="y"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!getAllSales}" name="getProductSalesFunc" rerender="sales" oncomplete="setPagingPS()"/>
+<apex:actionFunction action="{!createNewSale}" name="createNewSaleFunc" oncomplete="createNewSaleJS();" rerender="sales"/>
+
+<apex:actionFunction action="{!deleteSale}" name="deleteSaleFunc" rerender="sales" >
+<apex:param value="" name="saleid"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!saveSale}" name="saveSaleFunc" rerender="sales" >
+</apex:actionFunction>
+
+<apex:actionFunction action="{!setSelectedSale}" name="setSelectedSaleFunc" rerender="exp" oncomplete="setSelectedSaleJS()" >
+<apex:param value="" name="saleid"/>
+</apex:actionFunction>
+
+<div>
+<h3>{!title}</h3>
+
+<div class="daypager">
+<c:daypager showDays="true" pobjectType="product_sale" ></c:daypager>
+</div>
+<div id="saleList" style="display:{!if(view=='ps', 'block', 'none')}">
+
+<apex:outputPanel id="salesListPanel">
+
+<!--
+<div class="pull-right">
+    <table class="table table-striped" style="font-family:verdana">
+        <tr style="font-size:1.1rem;"><td style="font-style:italic">Total Gross:</td><td> Php <apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!gross}" /></apex:outputText></td></tr>
+        <tr style="font-size:1.1rem;"><td style="font-style:italic">Total Discount:</td><td> Php <apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!discount}" /></apex:outputText></td></tr>
+        <tr style="font-size:1.1rem;"><td style="font-style:italic">Total Comm:</td><td> Php <apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!commission}" /></apex:outputText></td></tr>
+        <tr style="font-size:1.1rem; font-weight:bold"><td style="font-style:italic">Net Amount:</td><td> Php <apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!net}" /></apex:outputText></td></tr>
+    </table>
+</div>
+-->
+
+
+
+
+<div class="">
+<div class="pull-left">
+<a class="Button_style1 small SteelBlue" value="Add new" onclick="createNewSaleFunc(); return false;">Add New</a>
+<a class="Button_style1 small OliveDrab" value="Confirm" onclick="confirmProductSale(); return false;" style="visibility:{!If(dayIsConfirmed, 'hidden','visible')}">Confirm</a>
+
+</div>
+<div class="pull-right">
+<div class="boxes_style_7">
+    <div class="boxes1 boxes">
+        <p><apex:outputText value="{0,date, MMMM d,  yyyy}"><apex:param value="{!selectedDate}"/></apex:outputText></p>  
+        <b><p>Php: <apex:outputText value="{0, number, ###,###,##0.00}">
+<apex:param value="{!gross}" /></apex:outputText></p>  </b>       
+    </div>
+</div>
+  
+
+</div>
+</div>
+
+<table class="table table-hover" id="salesTable">
+            <thead>
+            <tr class="info">
+                <th>Action</th>
+                <th>Date</th>
+                <th>Product</th>                
+                <th>Amount</th>
+                <th>Discount</th>
+                <th>Comm.</th>
+                <th>Final Amount</th>
+                
+            </tr>
+            </thead>
+            <tbody class="myTable">
+            <apex:repeat value="{!productsales}" var="m">
+              <tr>
+                <td><!--<input type="button" class="btn btn-sm btn-warning" value="Edit" id="btnEdit_{!m.Id}" onclick="setSelectedSaleFunc('{!m.id}')" /> | -->
+                
+                <div style="display:{!If(m.confirmed_By__c=='Not Confirmed' || m.Confirmed_By__c==null,'block','none')}">
+                <a class="Button_style1 small silver" value="Delete" id="btnDelete_{!m.Id}" onclick="deleteSaleJS('{!m.id}'); return false;" >Delete</a>
+                
+                </div>
+               
+                <div style="display:{!If(m.Confirmed_By__c!='Not Confirmed' &&  m.Confirmed_By__c!=null,'block','none')}">
+                    <i>Confirmed by {!m.Confirmed_By__c}</i>
+                </div>
+                
+                </td>
+                <td><apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+    <apex:param value="{!m.Date__c}" /> 
+</apex:outputText></td>
+                <td>{!m.Product__r.Name__c} </td>
+                <!--<td>{!m.staff__r.Name__c}</td>-->
+                <td><apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!m.Amount__c}" /></apex:outputText></td>
+                <td><apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!m.Discount__c}" /></apex:outputText></td>
+                <td><apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!m.Product__r.Commission__c}" /></apex:outputText></td>
+                <td><apex:outputText value="{0, number, ###,###,##0.00}"><apex:param value="{!m.Final_Amount__c}" /></apex:outputText></td>
+                </tr>
+          </apex:repeat>
+          </tbody>
+      </table>
+      <div class="col-md-12 text-center">
+      <ul class="pagination pagination-md pager myPager" id=""></ul>
+      </div>
+</apex:outputPanel>
+</div>
+
+<div id="sale" style="display:none">
+<apex:outputPanel id="salePanel">
+
+<div class="boxes_style_7">
+                        <div class="boxes">
+                        <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Date</small></label>
+                            <apex:inputField value="{!sale.Date__c}" styleClass="form-control"/>
+                            
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Product:</small></label>
+                            <apex:selectList value="{!SelectedProductId}" multiselect="false" size="1" styleClass="form-control prod">
+                                <apex:selectOptions value="{!productOptions}"></apex:selectOptions>
+                            </apex:selectList>
+                            <!--<apex:inputField value="{!sale.Product__c}" styleClass="form-control"/>-->
+                        </div>
+                        
+                        
+                        
+                        
+                        <div class="col-xs-6 form-group">
+                        <a class="Button_style1 small SteelBlue" value="Save" onclick="saveSaleJS(); return false;">Save</a>
+                        <a class="Button_style1 small silver" value="Cancel" onclick="cancelSaleJS (); return false">Cancel</a>
+                        </div>
+                        </div>
+                        </div>
+    </div>
+</apex:outputPanel>                           
+</div>
+</div>
+<script>
+setPagingPS = function(){
+        $('.myTable').pageMe({pagerSelector:'.myPager',showPrevNext:true,hidePageNumbers:false,perPage:15});
+    }
+</script>
+</apex:form>
+</apex:component>

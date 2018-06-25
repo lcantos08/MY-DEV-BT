@@ -1,0 +1,49 @@
+<apex:component controller="ConfirmController" allowDML="true">
+
+<apex:attribute name="ptype" description="type" type="String" assignTo="{!type}" required="true"/>
+<apex:attribute name="pobjecttype" description="type" type="String" assignTo="{!objecttype}" required="true"/>
+<apex:attribute name="pdateStr" description="type" type="Date" assignTo="{!dateStr}" required="false"/>
+<apex:attribute name="precordId" description="type" type="String" assignTo="{!recordId}" required="false"/>
+
+<apex:form id="confirmForm">
+<apex:actionFunction name="confirmFunc" action="{!confirm}" reRender="" oncomplete="closeConfirmModal();">
+<apex:param value="" name="pConfirmedBy" assignTo="{!confirmed_by}"/>
+</apex:actionFunction>
+    <div class="modal-body">
+        <div class="boxes">
+            <p>
+                <b>Enter Code:</b>
+                <input type="text" class="form-control confirm-txt" ></input>
+            </p>               
+        </div>
+      </div>
+      <div class="modal-footer">
+      <a class="Button_style1 small SteelBlue" value="Confirm"  onclick="confirmJS(); return false;" >Confirm</a>
+      <a class="Button_style1 small silver" data-dismiss="modal" onclick="return false;">Close</a>
+      </div>    
+      
+<script>
+    closeConfirmModal = function(){     
+        $('.confirm-modal').modal('hide');
+        refreshConfirmedRecords('{!objecttype}');
+        
+    }
+    confirmJS= function(){
+        var c = $('.confirm-txt').val();
+        var valid = false;
+        var cby = 'Not Confirmed';
+        if(c=='skyrah' || c=='lui' || c=='lui_anna17'){
+            valid=true;
+            cby = c=='skyrah' ? 'Thess' : (c=='lui_anna17' ? 'Anna' : 'Lui');
+        }
+        if (valid){
+            confirmFunc(cby);
+        }else{
+            alert('Invalid code');
+            return false;
+        }
+    }
+</script>
+      
+</apex:form>    
+</apex:component>

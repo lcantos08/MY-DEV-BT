@@ -1,0 +1,33 @@
+<apex:page controller="PositionController" >
+  <apex:form >
+  <apex:PageBlock title="List of Positions">
+  <apex:outputText value="{!selectedPosition.Name}"></apex:outputText>
+  <apex:pageBlockTable value="{!positions}" var="item">
+   <apex:column >
+<apex:facet name="header">Name</apex:facet>
+<apex:commandLink rerender="detail" action="{!getDetails}">
+{!item.Name}
+<apex:param name="cid" value="{!item.Id}" assignTo="{!selectedPositionId}"/>
+</apex:commandLink>
+</apex:column>
+  <apex:column >
+  <apex:facet name="header">Status</apex:facet>
+  <apex:outputText value="{!item.Status__c}"/>
+  </apex:column>
+  </apex:pageBlockTable>
+  </apex:PageBlock>
+  
+  <apex:outputPanel id="detail">
+
+<apex:PageBlock >
+<apex:pageBlockTable value="{!positionJobApplications}" var="item">
+<apex:column value="{!item.Name}"/>
+<apex:column value="{!item.Position__r.Name}"/>
+</apex:pageBlockTable>
+</apex:PageBlock>
+
+  </apex:outputPanel>
+  
+  </apex:form>
+  
+</apex:page>

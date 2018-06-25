@@ -1,0 +1,15 @@
+<apex:page standardController="Job_Application__c"  extensions="JobApplicationController">
+  <apex:form >
+  <apex:pageBlock title="Active Job Applications">
+  <apex:pageBlockTable value="{!jobApplications}" var="item"> 
+  <apex:column >
+  <apex:facet name="header">Number</apex:facet>
+  <apex:outputLink value="{!item.Id}"> {!item.Name}</apex:outputLink>
+  </apex:column>
+  </apex:pageBlockTable>
+  <apex:outputpanel id="details">
+  <apex:PageBlock ></apex:PageBlock>
+  </apex:outputpanel>
+   </apex:pageBlock>
+  </apex:form>
+</apex:page>

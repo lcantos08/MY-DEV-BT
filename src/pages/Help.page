@@ -1,0 +1,23 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="true">
+        <apex:composition template="Template">
+        <apex:define name="header" />
+        <apex:define name="bodyContent">
+        <table border="0" width="660">
+        <tr><td align="left"><font size="5" face="Britannic Bold">Help</font><br /></td></tr>
+        </table>
+        <h1>User Guide:</h1>
+        <p>Please download the user guide for more information about ATHENA</p>        
+        <blockquote>
+        <apex:outputLink value="{!$Resource.UserGuide}" target="_blank"><apex:image url="{!URLFOR($Resource.adobe, 'pdficon_small.gif')}" width="17" height="17"/>Download User Guide</apex:outputLink><br />
+        </blockquote>                    
+        
+        
+        If you are having any problems viewing the User guide, please download and install Adobe Reader
+        <blockquote>
+        
+        <a href="http://get.adobe.com/reader/"><apex:image url="{!URLFOR($Resource.adobe, 'get_adobe_reader.gif')}" alt="Download Adobe Reader to view this file" style="vertical-align: middle;" height="31" width="88"/> </a>
+        </blockquote>                    
+        </apex:define>
+        <apex:define name="footer" />
+        </apex:composition>
+</apex:page>

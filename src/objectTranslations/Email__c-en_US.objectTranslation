@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Email</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Emails</value>
+    </caseValues>
+    <fields>
+        <label><!-- Exam Name --></label>
+        <name>Exam_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Link --></label>
+        <name>Link__c</name>
+    </fields>
+    <fields>
+        <label><!-- Recipient Name --></label>
+        <name>Recipient_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Recipient --></label>
+        <name>Recipient__c</name>
+    </fields>
+    <fields>
+        <label><!-- Result --></label>
+        <name>Result__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sender Name --></label>
+        <name>Sender_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sender --></label>
+        <name>Sender__c</name>
+    </fields>
+    <fields>
+        <label><!-- Template --></label>
+        <name>Template__c</name>
+    </fields>
+    <fields>
+        <label><!-- Top Scorer --></label>
+        <name>Top_Scorer__c</name>
+    </fields>
+    <layouts>
+        <layout>Email Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

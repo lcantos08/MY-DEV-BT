@@ -1,0 +1,10 @@
+<apex:page controller="testController" docType="HTML-5.0">
+  <apex:form >{!l} --xxx--{!xxx}
+ <p>{!xx}</p>
+  from: <apex:input type="datetime-local" value="{!f}"/>
+  to: <apex:input type="datetime-local" value="{!t}"/>
+  
+  <apex:outputLabel value="{!min_total}"></apex:outputLabel>
+  <apex:commandButton value="send" action="{!lui}"/>
+  </apex:form>
+</apex:page>

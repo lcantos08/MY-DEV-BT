@@ -1,0 +1,91 @@
+<apex:component controller="DailySummaryController">
+  <apex:form >
+  <h3>Daily Summary</h3>
+<div class="form-group">
+        <div class="col-md-6">
+            Year: <apex:selectList id="select_year" required="true" multiselect="false" size="1" label="Type"  
+            value="{!selectedYear}" styleclass="form-control">
+            
+<apex:selectOptions value="{!yearOptions}"/>
+<apex:actionSupport rerender="dailySummary" event="onchange"/>
+</apex:selectList>
+        </div>
+        <div class="col-md-6">
+            Month : <apex:selectList id="select_month" required="true" multiselect="false" size="1" label="Type"  
+            value="{!selectedmonth}" styleclass="form-control">
+<apex:selectOptions value="{!monthOptions}"/>
+<apex:actionSupport rerender="dailySummary" event="onchange"/>
+</apex:selectList>
+        </div>
+    <div  style="padding:10px 10px 30px 10px"/>    
+    </div>
+    <apex:outputPanel id="dailySummary">
+    <div  style="padding:10px 10px 10px 10px">
+    <p/>
+      <table class="table table-hover " >
+      <thead>
+          <tr class="info">
+              <th>Day</th>
+              <th>Count</th>
+              <th>Gross Service</th>
+              <th>Ther. Comm.</th>
+              <th>Discount</th>
+              <th>Net Service</th>
+              <th>Mega</th>
+              <th>Mega Comm.</th>
+              <th>Net Mega</th>
+              <th>Expenses</th>
+              <th>SMC</th>
+              <th>Net Sales</th>
+          </tr>
+          </thead>
+          <tbody class="myTable">
+          <apex:repeat value="{!MonthlySummary.summaryList}" var="s">
+              <tr>
+                  <td>{!s.day}</td>
+                  <td>{!s.serviceCount}</td>
+                  <td>{!s.grossservice}</td>
+                  <td>{!s.therapistcommission}</td>
+                  <td>{!s.discount}</td>
+                  <td>{!s.netservice}</td>
+                  <td>{!s.mega}</td>
+                  <td>{!s.megacommission}</td>
+                  <td>{!s.netmega}</td>
+                  <td>{!s.expenses}</td>
+                  <td>{!s.smc}</td>
+                  <td>{!s.netsales}</td>
+              </tr>
+          </apex:repeat>
+          </tbody>
+          <tfoot>
+          <apex:repeat value="{!MonthlySummary}" var="s">
+          <tr class="success">
+                  <td><b>Total:</b></td>
+                  <td>{!s.count}</td>
+                  <td>{!s.totalgrossservice}</td>
+                  <td>{!s.totaltherapistcommission}</td>
+                  <td>{!s.totaldiscount}</td>
+                  <td>{!s.totalnetservice}</td>
+                  <td>{!s.totalGrossmega}</td>
+                  <td>{!s.totalmegacommission}</td>
+                  <td>{!s.totalnetmega}</td>
+                  <td>{!s.totalexpenses}</td>
+                  <td>{!s.totalsmc}</td>
+                  <td>{!s.totalnetsales}</td>
+              </tr>
+              </apex:repeat>
+              </tfoot>
+      </table>
+      <div class="col-md-12 text-center">
+      <ul class="pagination pagination-md pager myPager" id=""></ul>
+      </div>
+      </div>
+      </apex:outputPanel>
+      <script>
+        setPagingHome = function(){
+            $('.myTable').pageMe({pagerSelector:'.myPager',showPrevNext:true,hidePageNumbers:false,perPage:15});
+        }
+        setPagingHome();
+      </script>
+  </apex:form>
+</apex:component>

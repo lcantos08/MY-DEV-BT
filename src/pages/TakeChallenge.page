@@ -1,0 +1,19 @@
+<apex:page showHeader="false" sidebar="false" controller="TakeChallengeController" standardStylesheets="true">
+        <apex:composition template="Template">
+        <apex:define name="header" />
+        <apex:define name="bodyContent">
+            
+            <h1>Challenge Mechanics: </h1>  <br /><br />
+            <p>The Quiz is presented to you in a simple and standard format.  Quiz Question types includes Multiple Choice and True/False. In order to proceed to the next question, the user should choose an answer among the choices. The exam will only stop once YOU have made a mistake. Each question has a time limit depending on the question’s difficulty and number of choices.  </p>  <br />
+            
+            <br /><br /><br />                                  
+            <apex:pageMessages />                                                                
+
+            <apex:form id="StartChallengeForm">
+                <apex:commandButton value="Start Challenge" action="{!startChallenge}" rendered="{!isTokenValid}"/>
+            </apex:form> 
+                                              
+        </apex:define>
+        <apex:define name="footer" />
+        </apex:composition>
+</apex:page>

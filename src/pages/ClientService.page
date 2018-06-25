@@ -1,0 +1,10 @@
+<apex:page controller="ClientServiceController" showHeader="false" sidebar="false" standardStylesheets="false">
+<apex:includeScript value="{!$Resource.jquery_js}"/>
+<apex:stylesheet value="{!$Resource.bootstrapcss}"/>
+<apex:includeScript value="{!$Resource.bootstrapjs}"/>
+<html>
+<body style="padding:10px">
+<c:client_service ></c:client_service>
+</body>
+</html>
+</apex:page>

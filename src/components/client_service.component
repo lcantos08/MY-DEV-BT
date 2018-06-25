@@ -1,0 +1,322 @@
+<apex:component controller="ClientServiceController" allowDML="true">
+
+    <script> 
+    var staffs222= []; 
+    </script> 
+    <apex:repeat value="{!staffs}" var="s"> 
+        <script> 
+          var s = new Object();
+          s["Id"] = '{!s.Id}';
+            staffs222.push(s); 
+        </script> 
+    </apex:repeat>
+<script>
+    
+    getClientServicesJS = function(){
+    
+        getClientServicesFunc();
+    }
+    
+    var day=1, mo=1, yr=2017;
+    getServicesByDay= function(d, m,y){
+        day=d; mo=m; yr=y;
+        getServicesByDayFunc(d,m,y);
+    }
+    
+    getMonthlyClientServices= function(m,y){
+        mo=m; yr=y;
+        getServicesByDayFunc(-1,m,y);
+    }
+    
+    setSelectedClientServiceJS=function(){
+        $('#serviceList').hide();
+        $('#service').show();
+    }
+    saveClientServiceJS= function(){
+    
+        var com ='';
+        var d = $('#service_date').val();
+        if (d===''){
+            alert('Select Service date');
+            $('#service_date').focus();
+            return;
+        }
+        var t = $('[id$=service_type]').val();
+        
+        if (t===''){
+            alert('Select service type');
+            $('[id$=service_type]').focus();
+            return;
+        } 
+        var n = $('[id$=service_name]').val();
+        if (n===''){
+            alert('Select service name');
+            $('[id$=service_name]').focus();
+            return;
+        }    
+        
+        //alert(staffs);
+        for (var i=0; i<staffs222.length; i++){
+            
+            var id = ''+staffs222[i].Id;
+            var checked = $('#cb_'+id).prop('checked');
+            
+            if (checked){
+                var c = $('#txt_'+id).val();
+                if (c!=''){
+                    com+= id+'-'+c+';';
+                }
+            }
+        }
+        
+        if (com==''){
+            alert('Enter Staff Commission');
+            return;
+        }    
+        
+        saveClientServiceFunc(com);
+    }
+    cancelServiceJS = function(){
+        $('#serviceList').show();
+        $('#service').hide();
+    }
+    createNewServiceJS = function(){
+        $('#serviceList').hide();
+        $('#service').show();
+        $('#service_date').val(new Date());
+    }
+    
+    setTextBox = function(btn, id){
+        var checked = $(btn).prop('checked');
+        if (checked){
+            $('#txt_'+id).prop('disabled', false);
+        }else{
+            $('#txt_'+id).val('');
+            $('#txt_'+id).prop('disabled', true);
+        }    
+    }
+    
+    deleteServiceJS = function(id){
+        var del = confirm('Are you sure you want to delete this record?')
+        if (del)
+            deleteServiceFunc(id);
+    }
+    
+    confirmService = function(){
+        $('#div_confirm_client_service').modal('show');
+    }
+    
+    refreshConfirmedRecords= function(t){
+        if(t=='client_service')
+            getServicesByDayFunc(day,mo,yr);
+    }
+    
+    setPagingCS = function(){
+        $('.myTable').pageMe({pagerSelector:'.myPager',showPrevNext:true,hidePageNumbers:false,perPage:15});
+    }
+
+</script>
+
+
+
+<div id="div_confirm_client_service" class="modal fade confirm-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <c:confirmation ptype="day" pobjectType="client_service" pdateStr="{!selecteddate}" />
+    </div>
+
+  </div>
+</div>
+
+
+<apex:form id="clientServices" >
+<apex:actionFunction action="{!getServicesToday}" rerender="clientServices" name="getClientServicesFunc" oncomplete="setPagingCS()" />
+<apex:actionFunction action="{!createNewService}" name="createNewServiceFunc" oncomplete="createNewServiceJS();" rerender=""/>
+<apex:actionFunction action="{!setSelectedClientService}" immediate="true" name="setSelectedClientServiceFunc" rerender="clientServices" oncomplete="setSelectedClientServiceJS()" >
+<apex:param value="" name="clientserviceid"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!getServicesByDay}" immediate="true" name="getServicesByDayFunc" rerender="clientServiceList"  oncomplete="setPagingCS()">
+<apex:param value="" name="day"/>
+<apex:param value="" name="month"/>
+<apex:param value="" name="year"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!deleteClientService}" name="deleteServiceFunc" rerender="clientServices" >
+<apex:param value="" name="clientserviceid"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!saveClientService}" name="saveClientServiceFunc" rerender="clientServices" >
+<apex:param value="" name="staffcommission"/>
+</apex:actionFunction>
+<h3>Client Services</h3>
+
+<div class="" style="padding:10px">
+
+<div class="">
+
+
+<div id="serviceList">
+<c:daypager showDays="true" pobjectType="client_service" ></c:daypager>
+
+
+
+<apex:outputPanel id="clientServiceList">
+
+
+<div class="">
+<div class="pull-left">
+<a target="blank" href="" class="Button_style1 small SteelBlue"  onclick="createNewServiceFunc();"> Add New</a>
+<a target="blank" href="" class="Button_style1 small OliveDrab" onclick="confirmService (); return false;" style="visibility:{!If(dayIsConfirmed, 'hidden','visible')}">Confirm</a>
+</div>
+<div class="pull-right">
+<div class="boxes_style_7">
+    <div class="boxes1 boxes">
+        <p><apex:outputText value="{0,date, MMMM d,  yyyy}"><apex:param value="{!selectedDate}"/></apex:outputText></p>  
+        <b><p>Php: <apex:outputText value="{0, number, ###,###,##0.00}">
+<apex:param value="{!totalGross}" /></apex:outputText></p>  </b>       
+    </div>
+</div>
+  
+
+</div>
+</div>
+<table class="table table-hover" id="usersTable">
+    <thead>
+            <tr class="info">
+                <th>Action</th>
+                <th>Date / Time</th>
+                <th>Service</th>
+                <th>Therapist(s)</th>
+                <th>Client</th>
+                <th>Commission</th>            
+                <th>Discount</th>
+                <th>Amount</th>
+                
+            </tr>
+            </thead>
+            <tbody class="myTable">
+            <apex:repeat value="{!Services}" var="m">
+              <tr>
+                <td>
+                <!--<input type="button" class="btn btn-sm btn-warning" value="Edit" id="btnEdit_{!m.Id}" onclick="setSelectedClientServiceFunc('{!m.id}')" /> | -->
+                
+                <div style="display:{!If(m.confirmed_By=='Not Confirmed' || m.Confirmed_By==null,'block','none')}">
+                <a target="blank" href="" class="Button_style1 small silver" id="btnDelete_{!m.Id}" onclick="deleteServiceJS('{!m.id}')" >Delete</a>
+                </div>
+                
+                <div style="display:{!If(m.confirmed_By!='Not Confirmed' &&  m.Confirmed_By!=null,'block','none')}">
+                    <i>Confirmed by {!m.confirmed_By}</i>
+                </div>
+                
+                </td>
+                <td><apex:outputText value="{0,date,MM/dd/YYYY}" >
+    <apex:param value="{!m.Date_time}" />
+</apex:outputText></td>
+                <td>{!m.Service}</td>
+                <td>{!m.Therapist}</td>
+                <td>{!m.Client}</td>
+                <td>{!m.Commission}</td>            
+                <td>{!m.Discount}</td>
+                <td>{!m.Amount}</td> 
+                
+              </tr>
+          </apex:repeat>
+          </tbody>
+          <tfoot>
+          <tr>
+                <td colspan="5" class="success" style="text-align:right"><b>Total: </b></td>
+                <td class="success" style="text-align:left"> {!totalCommission} </td>
+                <td class="success" style="text-align:left"> {!totalDiscount} </td>
+                <td class="success" style="text-align:left"> {!totalGross} </td>
+          </tr>
+          </tfoot>
+      </table>
+      <div class="col-md-12 text-center">
+      <ul class="pagination pagination-md pager myPager" id=""></ul>
+      </div>
+</apex:outputpanel>
+</div>
+</div>
+<div id="service" style="display:none;">
+<apex:outputPanel id="servicePanel">
+<div class="boxes_style_7">
+    <div class="boxes">
+<div class="row" >
+                    <div>    
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Date</small></label>
+                           <!-- <apex:inputField styleClass="form-control"  value="{!CS.Date_Time__c}"/>-->
+                            <apex:inputField value="{!CS.Date_Time__c}" styleclass="form-control"/>
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Amount:</small></label>
+                            <input type="text" value="{!Amount}" class="form-control" readonly="true"/>
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Discount:</small></label>
+                            <apex:inputField value="{!CS.Discount__c}" styleClass="form-control"/>
+                        </div>
+                        
+                        
+                        <apex:outputPanel id="service_panel">   
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Service Type</small></label>
+                            <apex:selectList id="service_type"  value="{!selectedServiceTypeId}" size="1" styleClass="form-control" >
+                                <apex:actionSupport event="onchange" action="{!getServices}"  reRender="service_panel"/>
+                                <apex:selectOptions value="{!serviceTypeOptions}"/>
+                            </apex:selectList>
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Service:</small></label>
+                            <apex:selectList id="service_name" value="{!SelectedServiceId}" size="1" styleClass="form-control">
+                                <apex:actionSupport event="onchange" action="{!setAmount}" reRender="servicePanel"/>
+                                <apex:selectOptions value="{!serviceOptions}"/>
+                            </apex:selectList>
+                        </div>
+                        </apex:outputPanel>
+                        </div>
+                        <div class="col-xs-8 form-group" style="border-radius:5px; ">
+                            <label class="control-label" ><small>Theraphist Commision: (PhP {!Commission}) </small></label>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr class="info">
+                                    <td>Select</td>
+                                    <td>Name</td>
+                                    <td>Commission</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <apex:repeat value="{!staffs}" var="s">
+                                    <tr>
+                                    <td><input type="checkbox" id="cb_{!s.Id}" onclick="setTextBox(this, '{!s.Id}')"/></td>
+                                    <td>{!s.Name__c }</td>
+                                    <td><input type="number" id="txt_{!s.Id}" disabled="true" /></td>
+                                </tr>
+                                </apex:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-6 form-group">
+                        <a target="blank" href="" class="Button_style1 small SteelBlue"  onclick="saveClientServiceJS();">Save</a>
+                        <a target="blank" href="" class="Button_style1 small silver" onclick="cancelServiceJS ();">Cancel</a>
+                        </div>
+    </div>
+</div>
+</div>
+</apex:outputPanel>    
+                       
+</div>
+</div>
+</apex:form>
+</apex:component>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Service</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Services</value>
+    </caseValues>
+    <fields>
+        <label><!-- Commission --></label>
+        <name>Commission__c</name>
+    </fields>
+    <fields>
+        <label><!-- Name --></label>
+        <name>Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Percent Commission --></label>
+        <name>Percent_Commission__c</name>
+    </fields>
+    <fields>
+        <label><!-- Price --></label>
+        <name>Price__c</name>
+    </fields>
+    <fields>
+        <label><!-- Service Type --></label>
+        <name>Service_Type__c</name>
+        <relationshipLabel><!-- Services --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Examination</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Examinations</value>
+    </caseValues>
+    <fields>
+        <label><!-- Achievement_Rate --></label>
+        <name>Achievement_Rate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Badge --></label>
+        <name>Badge__c</name>
+    </fields>
+    <fields>
+        <label><!-- Date Added --></label>
+        <name>Date_Added__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description1 --></label>
+        <name>Description1__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description2 --></label>
+        <name>Description2__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Name --></label>
+        <name>Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Passing_Rate --></label>
+        <name>Passing_Rate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Promotion_Text --></label>
+        <name>Promotion_Text__c</name>
+    </fields>
+    <fields>
+        <label><!-- Question_ID --></label>
+        <name>Question_ID__c</name>
+    </fields>
+    <layouts>
+        <layout>Examination Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

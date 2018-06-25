@@ -1,0 +1,108 @@
+<apex:page sidebar="false" showHeader="false" controller="ResultController" standardStylesheets="true" action="{!onInit}" >
+    <style type="text/css">
+       .pop{
+            background-color: #89BAC9;
+            border-style: solid;
+            border-width: 2px;
+            left: 50%;    
+            padding:10px;
+            position: absolute;
+            z-index: 99;
+            width: auto;
+            margin-left: -200px;
+            top:-10px;
+        }
+    </style>
+ 
+
+<apex:composition template="Template">
+<apex:define name="header" />
+<apex:define name="bodyContent"> 
+                    
+    <apex:form id="Invite" >
+        <div align="center">
+    <table border="0" height="350" width="550" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center"><h3>YOU GOT</h3></td>
+        </tr>
+        <tr>
+            <td align="center"><font face="Lucida Console" size="20">{!uexam.Score__c}</font><br/>{!status}</td>
+        </tr>
+        <tr><td>&nbsp;<br />&nbsp;<br /></td></tr>
+        <tr>
+            <td align="center">{!uexam.Examination_ID__r.Promotion_Text__c }<br /></td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td><apex:commandlink value="Challenge your friends" action="{!invite}" rerender="popInvite"/> to take this exam and compare your results. </td>
+        </tr>
+        <tr>
+            <td>See if your one of the best on our Leader Board &nbsp; <apex:outputLink value="http://athena-developer-edition.ap1.force.com/LeaderBoard">here.</apex:outputLink></td>
+        </tr>
+        <tr>
+            <td>Do you have the guts to conquer the Leader Board? take our other 
+            challenge &nbsp; <apex:outputLink value="http://athena-developer-edition.ap1.force.com">here.</apex:outputLink><br /></td>
+        </tr>
+    </table>
+</div>
+   <apex:actionFunction name="setFocus" focus="friendName1InputText"
+        rerender="popInvite" />
+
+<!--pop up-->
+        <apex:outputPanel id="popInvite">
+            <apex:outputPanel styleClass="pop" layout="solid" rendered="{!displayInvite}">
+
+                <div align="center">
+                    <table border="0" width="380" cellspacing="0" cellpadding="0">
+                        <tr><td colspan="3" align="left"><font color="#FF0000"><apex:messages /></font></td></tr>
+                        <tr>
+                            <td width="150" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Friend's Name</td>
+                            <td width="10"></td>
+                            <td width="190" align="left">Friend's E-mail</td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="right"><apex:inputText value="{!friendName1}"/></td>
+                            <td colspan="2">&nbsp;&nbsp;<apex:inputText value="{!emailAddress1}" size="26"/></td>
+                        </tr>
+                        <tr height="3" colspan="3">
+                        </tr>
+                        <tr valign="top">
+                            <td align="right"><apex:inputText value="{!friendName2}"/></td>
+                            <td colspan="2">&nbsp;&nbsp;<apex:inputText value="{!emailAddress2}" size="26"/></td>
+                        </tr>
+                        <tr height="3" colspan="3">
+                        </tr>
+                        <tr valign="top">
+                            <td align="right"><apex:inputText value="{!friendName3}"/></td>
+                            <td colspan="2">&nbsp;&nbsp;<apex:inputText value="{!emailAddress3}" size="26"/></td>
+                        </tr>
+                        <tr height="3" colspan="3">
+                        </tr>
+                        <tr>
+                            <td align="right"><apex:inputText value="{!friendName4}"/></td>
+                            <td colspan="2">&nbsp;&nbsp;<apex:inputText value="{!emailAddress4}" size="26"/></td>
+                        </tr>
+                        <tr height="3" colspan="3">
+                        </tr>
+                        <tr>
+                            <td align="right"><apex:inputText value="{!friendName5}"/></td>
+                            <td colspan="2">&nbsp;&nbsp;<apex:inputText value="{!emailAddress5}" size="26"/></td>
+                        </tr>
+                        <tr height="3" colspan="3"></tr>
+                        <tr height="5" colspan="3"></tr>
+                        <tr>
+                            <td colspan="3" align="right">
+                                <apex:commandButton value="Send Invite" action="{!send}" rerender="popInvite"/>
+                                <apex:commandButton value="Close" action="{!cancel}" rerender="popInvite"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </apex:form>
+
+</apex:define>
+<apex:define name="footer" />
+</apex:composition>    
+</apex:page>

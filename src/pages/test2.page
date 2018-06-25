@@ -1,0 +1,98 @@
+<apex:page controller="BodyTechPageController" showHeader="false" sidebar="false" standardStylesheets="false">
+    <apex:composition template="test1">
+        <apex:define name="header">(page) This is the header of mypage</apex:define>
+        <apex:define name="menu"> <ul class="resp-tabs-list">
+        <li class="resp-tab-item" onclick="setViewJS('ds')"><span><i class="glyphicons glyph-home"></i>&nbsp;&nbsp;&nbsp;Home</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('cs')"><span><i class="glyphicons glyph-heart"></i>&nbsp;&nbsp;&nbsp;Services</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('exp')"><span><i class="glyphicons glyph-barcode"></i>&nbsp;&nbsp;&nbsp;Expenses</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('ps')"><span><i class="glyphicons glyph-leaf"></i>&nbsp;&nbsp;&nbsp;Product Sale</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('cu')"><span><i class="glyphicons glyph-notes"></i>&nbsp;&nbsp;&nbsp;Clinic Use</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('at')"><span><i class="glyphicons glyph-calendar"></i>&nbsp;&nbsp;&nbsp;Attendance</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('co')"><span><i class="glyphicons glyph-ok"></i>&nbsp;&nbsp;&nbsp;Cutoff</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('pinv')"><span><i class="glyphicons glyph-list"></i>&nbsp;&nbsp;&nbsp;Inventory</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('cf')"><span><i class="glyphicons glyph-usd"></i>&nbsp;&nbsp;&nbsp;Cash Flow</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('bt')"><span><i class="glyphicons glyph-bank"></i>&nbsp;&nbsp;&nbsp;Transaction</span></li>
+        <li class="resp-tab-item" onclick="loadGoogleChart()"><span><i class="glyphicons glyph-charts"></i>&nbsp;&nbsp;&nbsp;Reports</span></li>
+    </ul></apex:define>
+        <apex:define name="body">
+        <div class="resp-tabs-container">
+        <div class="resp_container">
+            <div class="resp_margin">
+             <apex:outputPanel id="ds">
+              <c:report_daily_summary rendered="{!If(p=='ds', true, false)}" />
+             </apex:outputPanel>
+              
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="cs">
+                <c:client_service rendered="{!If(p=='cs', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="exp">
+                <c:expense rendered="{!If(p=='exp', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="ps">
+                <c:product_sale viewM="ps" rendered="{!If(p=='ps', true, false)}"/>
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            <apex:outputPanel id="cu">
+                <c:clinic_use viewM="cu" rendered="{!If(p=='cu', true, false)}"/>
+            </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="at">
+                <c:Attendance rendered="{!If(p=='at', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="co">
+                    <c:cutOff_summary rendered="{!If(p=='co', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            <apex:outputPanel id="pinv">
+                <c:product_inventory rendered="{!If(p=='pinv', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            <apex:outputPanel id="cf">
+                <c:cashFlow rendered="{!If(p=='cf', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="bt">
+                <c:banktransactions rendered="{!If(p=='bt', true, false)}"/>
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:iframe src="/apex/reports"  />                
+            </div>
+        </div>
+    </div>
+        </apex:define>
+    </apex:composition>
+</apex:page>

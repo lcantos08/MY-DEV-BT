@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Leader Board</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Leader Boards</value>
+    </caseValues>
+    <fields>
+        <label><!-- Average --></label>
+        <name>Average__c</name>
+    </fields>
+    <fields>
+        <label><!-- Best Score --></label>
+        <name>Best_Score__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Rank --></label>
+        <name>Rank__c</name>
+    </fields>
+    <fields>
+        <label><!-- Trial --></label>
+        <name>Trial__c</name>
+    </fields>
+    <fields>
+        <label><!-- User Name --></label>
+        <name>User_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- User Profile --></label>
+        <name>User_Profile_ID__c</name>
+        <relationshipLabel><!-- Leader Boards --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

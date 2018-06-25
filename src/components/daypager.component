@@ -1,0 +1,110 @@
+<apex:component controller="DayPagerController">
+
+
+
+    <apex:attribute name="showDays" description=""  type="Boolean" required="false"/>
+    <apex:attribute name="pobjectType" assignTo="{!objectType}" description=""  type="String" required="true"/>
+    
+   
+        <div>
+    <div class="col-md-6">
+        
+        
+        <div >
+            Year:  <select  onchange="setDays()" class="form-control year-select" ><option value="--Select--">--Select--</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option></select>
+           
+        </div>
+        
+    </div>
+    <div class="col-md-6">
+    
+        <div >
+            Month :            
+            <select onchange="setDays()" class="form-control month-select"><option value="--Select--">--Select--</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+            </select>
+            
+        </div>
+        
+
+
+    </div>
+    
+  
+  <apex:outputPanel id="dayspanel">
+  
+  
+  <nav>
+  <ul class="pagination col-md-12" id="dayslist" >
+   
+  </ul>
+</nav>
+  </apex:outputPanel> 
+  </div>
+    
+
+  
+  <script>
+      var today = new Date();
+      var y = today.getFullYear();
+      var m = today.getMonth()+1;
+      //$(".year-select").val(y);
+      //$(".month-select").val(m);
+      //setDays();
+      function leapYear(year){
+          return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+      }
+      setDays = function(){
+          $('#dayslist').html('');
+          var y = $('.year-select').val();
+          var m = $('.month-select').val(); 
+          var t = '{!objectType}';       
+          if(m !='--Select--' && y!='--Select--'){
+              var d = 31;
+              if(m==9 || m==4 || m==6 || m==11)
+                  d= 30;
+              else if(m==2){
+                  d = leapYear(y) ? 29 : 28;
+              }
+              
+              for(var i=1; i<=d; i++){
+                  if(t=='client_service')
+                      var li = '<li><a href="" onclick="getServicesByDay('+i+','+m+','+y+'); return false;">'+i+'</a></li>';
+                  else if (t=='product_sale')
+                      var li = '<li><a href="" onclick="getDailyProductSale('+i+','+m+','+y+'); return false;">'+i+'</a></li>';
+                  else if (t=='clinic_use')
+                      var li = '<li><a href="" onclick="getDailyClinicUse('+i+','+m+','+y+'); return false;">'+i+'</a></li>';
+                  else if (t=='expense')
+                      var li = '<li><a href="" onclick="getExpenseByDate('+i+','+m+','+y+'); return false;">'+i+'</a></li>';
+                  $('#dayslist').append(li);
+              }
+              
+              if(t=='client_service')
+                  getMonthlyClientServices(m,y);
+              else if(t=='expense')
+                  getMonthlyExpenses(m,y);
+              else if(t=='product_sale')
+                  getMonthlyProductSale(m,y);
+              else if(t=='clinic_use')
+                  getMonthlyClinicUse(m,y);
+                  
+              
+                  
+          }
+          
+      }
+  
+  </script>
+  
+</apex:component>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Amount</label>
+        <precision>12</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Confirmed_By__c</fullName>
+        <externalId>false</externalId>
+        <label>Confirmed By</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Confirmed_By</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Date</label>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>SubType__c</fullName>
+        <externalId>false</externalId>
+        <label>SubType</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Type__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Product Order</fullName>
+                    <default>false</default>
+                    <label>Product Order</label>
+                </value>
+                <value>
+                    <fullName>Mall Rent</fullName>
+                    <default>false</default>
+                    <label>Mall Rent</label>
+                </value>
+                <value>
+                    <fullName>Permits/Forms</fullName>
+                    <default>false</default>
+                    <label>Permits/Forms</label>
+                </value>
+                <value>
+                    <fullName>Salary</fullName>
+                    <default>false</default>
+                    <label>Salary</label>
+                </value>
+                <value>
+                    <fullName>Royalty Fee</fullName>
+                    <default>false</default>
+                    <label>Royalty Fee</label>
+                </value>
+                <value>
+                    <fullName>Transportation</fullName>
+                    <default>false</default>
+                    <label>Transportation</label>
+                </value>
+                <value>
+                    <fullName>Clinic Use</fullName>
+                    <default>false</default>
+                    <label>Clinic Use</label>
+                </value>
+                <value>
+                    <fullName>Maintenance</fullName>
+                    <default>false</default>
+                    <label>Maintenance</label>
+                </value>
+                <value>
+                    <fullName>Flyers</fullName>
+                    <default>false</default>
+                    <label>Flyers</label>
+                </value>
+                <value>
+                    <fullName>Mall Event</fullName>
+                    <default>false</default>
+                    <label>Mall Event</label>
+                </value>
+                <value>
+                    <fullName>Miscellaneous</fullName>
+                    <default>false</default>
+                    <label>Miscellaneous</label>
+                </value>
+                <value>
+                    <fullName>Prepaid Load</fullName>
+                    <default>false</default>
+                    <label>Prepaid Load</label>
+                </value>
+                <value>
+                    <fullName>Laundry</fullName>
+                    <default>false</default>
+                    <label>Laundry</label>
+                </value>
+                <value>
+                    <fullName>Tax</fullName>
+                    <default>false</default>
+                    <label>Tax</label>
+                </value>
+                <value>
+                    <fullName>Cash Advance</fullName>
+                    <default>false</default>
+                    <label>Cash Advance</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Spa Supply</controllingFieldValue>
+                <valueName>Clinic Use</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Spa Supply</controllingFieldValue>
+                <valueName>Maintenance</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Marketing</controllingFieldValue>
+                <valueName>Flyers</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Marketing</controllingFieldValue>
+                <valueName>Mall Event</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Product Order</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Mall Rent</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Permits/Forms</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Salary</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Royalty Fee</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Prepaid Load</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Laundry</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Tax</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Operation</controllingFieldValue>
+                <valueName>Cash Advance</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Other</controllingFieldValue>
+                <valueName>Transportation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Other</controllingFieldValue>
+                <valueName>Miscellaneous</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Spa Supply</fullName>
+                    <default>false</default>
+                    <label>Spa Supply</label>
+                </value>
+                <value>
+                    <fullName>Marketing</fullName>
+                    <default>false</default>
+                    <label>Marketing</label>
+                </value>
+                <value>
+                    <fullName>Operation</fullName>
+                    <default>false</default>
+                    <label>Operation</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Expense</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Amount__c</columns>
+        <columns>Date__c</columns>
+        <columns>Description__c</columns>
+        <columns>Type__c</columns>
+        <columns>SubType__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>EXP - {0000000}</displayFormat>
+        <label>Expense ID</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Expenses</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

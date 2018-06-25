@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Expense</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Expenses</value>
+    </caseValues>
+    <fields>
+        <label><!-- Amount --></label>
+        <name>Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Confirmed By --></label>
+        <name>Confirmed_By__c</name>
+    </fields>
+    <fields>
+        <label><!-- Date --></label>
+        <name>Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- SubType --></label>
+        <name>SubType__c</name>
+        <picklistValues>
+            <masterLabel>Cash Advance</masterLabel>
+            <translation><!-- Cash Advance --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Clinic Use</masterLabel>
+            <translation><!-- Clinic Use --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Flyers</masterLabel>
+            <translation><!-- Flyers --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Laundry</masterLabel>
+            <translation><!-- Laundry --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Maintenance</masterLabel>
+            <translation><!-- Maintenance --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Mall Event</masterLabel>
+            <translation><!-- Mall Event --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Mall Rent</masterLabel>
+            <translation><!-- Mall Rent --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Miscellaneous</masterLabel>
+            <translation><!-- Miscellaneous --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Permits/Forms</masterLabel>
+            <translation><!-- Permits/Forms --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Prepaid Load</masterLabel>
+            <translation><!-- Prepaid Load --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Product Order</masterLabel>
+            <translation><!-- Product Order --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Royalty Fee</masterLabel>
+            <translation><!-- Royalty Fee --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Salary</masterLabel>
+            <translation><!-- Salary --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Tax</masterLabel>
+            <translation><!-- Tax --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Transportation</masterLabel>
+            <translation><!-- Transportation --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Type --></label>
+        <name>Type__c</name>
+        <picklistValues>
+            <masterLabel>Marketing</masterLabel>
+            <translation><!-- Marketing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Operation</masterLabel>
+            <translation><!-- Operation --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Other</masterLabel>
+            <translation><!-- Other --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Spa Supply</masterLabel>
+            <translation><!-- Spa Supply --></translation>
+        </picklistValues>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,7 @@
+<apex:page controller="TwitterController" >
+  <apex:form >
+      <apex:inputText value="{!messageTweet}"/>
+      <apex:commandButton action="{!tweet}" value="Post to twitter"/>
+      <apex:outputText value="{!result}"/>
+  </apex:form>
+</apex:page>

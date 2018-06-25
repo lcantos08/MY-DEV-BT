@@ -1,0 +1,251 @@
+<apex:component controller="ExpenseController" allowDML="true">
+<script>
+    createNewExpenseJS = function(){
+        $('#expenseList').hide();
+        $('#expense').show();
+    }
+    saveExpenseJS = function(){
+        saveExpenseFunc();
+    }
+    deleteExpenseJS = function(id){
+        var del = confirm('Are you sure you want to delete this record?')
+        if (del)
+            deleteExpenseFunc(id);
+    }
+    
+    setSelectedExpenseJS = function(){
+        $('#expenseList').hide();
+        $('#expense').show();
+    }
+    
+    cancelExpenseJS = function(){
+        $('#expenseList').show();
+        $('#expense').hide();
+    }
+    
+    confirmExpense = function(){
+        $('#div_confirm_expense').modal('show');
+    }
+    
+    
+</script>
+
+<div id="div_confirm_expense" class="modal fade confirm-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <c:confirmation ptype="day" pobjectType="expense" pdateStr="{!selecteddate}" />
+    </div>
+
+  </div>
+</div>
+
+<apex:form id="exp">
+<apex:actionFunction action="{!getExpensesByMonth}" immediate="true" name="setYearMonthExpenseFunc" rerender="expensePanelList" oncomplete="setPagingExp()">
+<apex:param value="" name="y"/>
+<apex:param value="" name="m"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!getExensesByday}" immediate="true" name="getexpensesBydayFunc" rerender="expensePanelList" oncomplete="setPagingExp()"  >
+<apex:param value="" name="y"/>
+<apex:param value="" name="m"/>
+<apex:param value="" name="d"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!createNewExpense}" name="createNewExpenseFunc" oncomplete="createNewExpenseJS();" rerender="exp"/>
+
+<apex:actionFunction action="{!deleteExpense}" name="deleteExpenseFunc" rerender="exp" >
+<apex:param value="" name="expenseid"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!saveExpense}" name="saveExpenseFunc" rerender="exp" immediate="false" >
+</apex:actionFunction>
+
+<apex:actionFunction action="{!setSelectedExpense}" name="setSelectedExpenseFunc" rerender="exp" oncomplete="setSelectedExpenseJS()" >
+<apex:param value="" name="expenseid"/>
+</apex:actionFunction>
+
+<div >
+<h3>Expenses</h3>
+
+<c:daypager pobjectType="expense" showDays="true"></c:daypager>
+
+
+<apex:outputPanel id="expensePanelList">
+
+<div id="expenseList">
+
+
+<div class="">
+<div class="pull-left">
+<a class="Button_style1 small SteelBlue" value="Add new" onclick="createNewExpenseFunc(); return false">Add New</a>
+<a class="Button_style1 small OliveDrab" value="Confirm" onclick="confirmExpense(); return false;" style="visibility:{!If(dayIsConfirmed, 'hidden','visible')}">Confirm</a>
+
+</div>
+<div class="pull-right">
+<div class="boxes_style_7">
+    <div class="boxes1 boxes">
+        <p><apex:outputText value="{0,date, MMMM d,  yyyy}"><apex:param value="{!selectedDate}"/></apex:outputText></p>  
+        <b><p>Php: <apex:outputText value="{0, number, ###,###,##0.00}">
+<apex:param value="{!total}" />
+</apex:outputText></p>  </b>       
+    </div>
+</div>
+  
+
+</div>
+</div>
+
+
+<table class="table table-hover" id="usersTable">
+            <thead>
+            <tr class="info">
+                <th>Action</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Amount</th>
+                
+            </tr>
+            </thead>
+            <tbody class="myTable">
+            <apex:repeat value="{!expenses}" var="m">
+              <tr>
+                <td>
+                    <div style="display:{!If(m.confirmed_By__c=='Not Confirmed' || m.Confirmed_By__c==null,'block','none')}">
+                    <a class="Button_style1 small GoldenOrange" value="Edit" id="btnEdit_{!m.Id}" onclick="setSelectedExpenseFunc('{!m.id}'); return false;" >Edit</a> | 
+                    <a class="Button_style1 small silver" value="Delete" id="btnDelete_{!m.Id}" onclick="deleteExpenseJS('{!m.id}'); return false;" >Delete</a>
+                    </div>
+                    <div style="display:{!If(m.confirmed_By__c!='Not Confirmed' &&  m.Confirmed_By__c!=null,'block','none')}">
+                    <i>Confirmed by {!m.confirmed_By__c}</i>
+                    </div>
+                    </td>
+                <td>
+                <apex:outputText value="{0,date,MM/dd/YYYY}" >
+    <apex:param value="{!m.Date__c}" />
+</apex:outputText>
+                </td>
+                <td>{!m.Description__c}</td>
+                <td>{!m.Type__c}</td>
+                <td>{!m.SubType__c}</td>
+                <td><apex:outputText value="{0, number, ###,###,##0.00}">
+<apex:param value="{!m.Amount__c}" />
+</apex:outputText></td>
+                
+              </tr>
+          </apex:repeat>
+          </tbody>
+      </table>
+    <div class="col-md-12 text-center">
+      <ul class="pagination pagination-md pager myPager" id=""></ul>
+      </div>
+</div>
+<div id="expense" style="display:none">
+<apex:outputPanel id="expensePanel">
+<div class="boxes_style_7">
+    <div class="boxes">
+<div class="row">
+<h4>Add new Expense</h4>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Date</small></label>
+                            <apex:inputField value="{!expense.Date__c}" styleClass="form-control"/>
+                            
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Category:</small></label>
+                            
+                            <apex:inputField value="{!expense.Type__c}" styleClass="form-control"/>
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Type:</small></label>
+                            
+                            <apex:inputField value="{!expense.SubType__c}" styleClass="form-control" required="true"/>
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Description:</small></label>
+                            <apex:inputField value="{!expense.Description__c}" styleClass="form-control"/>
+                        </div>
+                        
+                        
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Amount:</small></label>
+                            <apex:inputField value="{!expense.Amount__c}" styleClass="form-control"/>
+                        </div>
+                        
+                       
+                        
+                        
+                        <div class="col-xs-6 form-group">
+                        <a class="Button_style1 small SteelBlue" value="Save" onclick="saveExpenseJS(); return false;">Save</a>
+                        <a class="Button_style1 small silver" value="Cancel" onclick="cancelExpenseJS (); return false;">Cancel</a>
+                        </div>
+    </div>
+    </div>
+    </div>
+</apex:outputPanel>                           
+</div>
+</apex:outputPanel>
+</div>
+
+<script>
+$('#yearId_expense').change(function(a,e){
+          setMonthExpense();
+      })
+      $('#monthId_expense').change(function(a,e){
+          setMonthExpense();
+      })
+     
+     function setMonthExpense(){
+         var y = $('#yearId_expense').val();
+         var m = $('#monthId_expense').val();   
+         
+         setYearMonthExpenseFunc(y,m);
+         
+     }
+     
+     var day=1, mo=1, yr=2016;
+     function getExpenseByDate(d, m, y){
+         day = d;
+         mo = m;
+         yr=y;
+         
+         getexpensesBydayFunc(y,m,d);
+     }
+     
+     function getMonthlyExpenses(m,y){
+         mo=m; yr=y;
+         setYearMonthExpenseFunc(y,m);
+     }
+     
+     refreshConfirmedRecords= function(t){        
+        if(t=='expense')
+            getExpenseByDate(day,mo,yr);
+     }
+     
+    setPagingExp = function(){
+        $('.myTable').pageMe({pagerSelector:'.myPager',showPrevNext:true,hidePageNumbers:false,perPage:15});
+    }
+     
+     function toJSONLocal (date) {
+        
+            var local = new Date(date);
+            return (local.getMonth()+1)+'/'+local.getDate()+'/'+(local.getYear()+1900);
+            
+     }
+     setPagingExp();
+     
+</script>
+</apex:form>
+
+</apex:component>

@@ -1,0 +1,210 @@
+<apex:component controller="ProductSaleController" allowDML="true">
+<apex:attribute name="viewM" assignTo="{!view}" description="" type="String" required="true"/>
+<script>
+    createNewCUJS = function(){
+        //$('#saleList').hide();
+        $('.clinicUseList').hide();
+        $('#cu').show();
+        $('.daypager').hide();
+       // alert('klk');
+    }
+    saveCUJS = function(){
+        var pId =$('.prodcu').val();
+        if(pId==''){
+            alert('Please select product');
+            return;
+        }
+        saveCUFunc();
+    }
+    deleteCUJS = function(id){
+        var del = confirm('Are you sure you want to delete this record?')
+        if (del)
+            deleteCUFunc(id);
+    }
+    
+    setSelectedCUJS = function(){
+        //$('#saleList').hide();
+        $('.clinicUseList').hide();
+        $('#cu').show();
+        $('.daypager').hide();
+    }
+    
+    cancelCUJS = function(){
+        var v = '{!view}';
+        
+        $('.clinicUseList').show();
+        $('.daypager').show();
+        $('#cu').hide();
+    }
+    
+    getClinicUseJS = function(){
+        getClinicUseFunc();
+    }
+    
+    var dy=1, mo=1, yr=2016;
+    getDailyClinicUse = function(d,m,y){
+        getDailyClinicUseFunc(d,m,y);
+        dy=d; mo=m; yr=y;
+        return false;
+    }
+    
+    getMonthlyClinicUse = function(m,y){
+        getMonthlyClinicUseFunc(m,y);
+        mo=m; yr=y;
+        return false;
+    }
+    
+   
+    confirmClinicUse= function(){
+        $('#div_confirm_clinic_use').modal('show');
+    }
+    
+    refreshConfirmedRecords= function(t){
+        if(t=='clinic_use')
+            getDailyClinicUseFunc(dy,mo,yr);
+    }
+    
+</script>
+
+<div id="div_confirm_clinic_use" class="modal fade confirm-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Product sale</h4>
+      </div>
+      <c:confirmation ptype="day" pobjectType="clinic_use" pdateStr="{!selecteddate}" />
+    </div>
+
+  </div>
+</div>
+
+<apex:form id="clinic_use">
+<apex:actionFunction name="getDailyClinicUseFunc" action="{!getdailyRecords}" rerender="clinicUseListPanel">
+<apex:param value="" name="d"/>
+<apex:param value="" name="m"/>
+<apex:param value="" name="y"/>
+</apex:actionFunction>
+
+<apex:actionFunction name="getMonthlyClinicUseFunc" action="{!getMonthlyRecords}" rerender="clinicUseListPanel">
+<apex:param value="" name="m"/>
+<apex:param value="" name="y"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!getAllSales}" name="getClinicUseFunc" rerender="clinic_use"/>
+<apex:actionFunction action="{!createNewSale}" name="createNewCUFunc" oncomplete="createNewCUJS();" rerender="clinic_use"/>
+
+<apex:actionFunction action="{!deleteSale}" name="deleteSaleFunc" rerender="clinic_use" >
+<apex:param value="" name="saleid"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!saveSale}" name="saveCUFunc" rerender="clinic_use" >
+</apex:actionFunction>
+
+<apex:actionFunction action="{!setSelectedSale}" name="setSelectedCUFunc" rerender="exp" oncomplete="setSelectedCUJS()" >
+<apex:param value="" name="saleid"/>
+</apex:actionFunction>
+
+<div>
+<h3>{!title}</h3>
+
+<div class="daypager">
+<c:daypager showDays="true" pobjectType="clinic_use" ></c:daypager>
+</div>
+
+
+
+<apex:outputPanel id="clinicUseListPanel">
+
+<div class="clinicUseList" >
+
+
+<div class="">
+<div class="pull-left">
+<a class="Button_style1 small SteelBlue" value="Add new" onclick="createNewCUFunc(); return false;"> Add New</a>
+<a class="Button_style1 small OliveDrab" onclick="confirmClinicUse(); return false;" style="visibility:{!If(dayIsConfirmed, 'hidden','visible')}">Confirm</a></div>
+<div class="pull-right">
+<div class="boxes_style_7">
+    <div class="boxes1 boxes">
+        <p><apex:outputText value="{0,date, MMMM d,  yyyy}"><apex:param value="{!selectedDate}"/></apex:outputText></p>  
+              
+    </div>
+</div>
+  
+
+</div>
+</div>
+
+    <table class="table table-hover" id="clinicUseTable">            
+        <thead>
+        <tr class="info">
+            <th>Action</th>
+            <th>Date</th>
+            <th>Product</th>
+        </tr>
+        </thead>
+        <tbody>
+        <apex:repeat value="{!clinicUse}" var="u">
+        <tr>
+            <td>
+            
+            <div style="display:{!If(u.confirmed_By__c=='Not Confirmed' || u.Confirmed_By__c==null,'block','none')}">
+                <a class="Button_style1 small silver" value="Delete" id="btnDelete2_{!u.Id}" onclick="deleteSaleJS('{!u.id}'); return false;" >Delete</a>
+                
+                </div>
+                
+                <div style="display:{!If(u.confirmed_By__c!='Not Confirmed' &&  u.Confirmed_By__c!=null,'block','none')}">
+                    <i>Confirmed by {!u.confirmed_By__c}</i>
+                </div>
+            
+            
+            </td>
+                <td><apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+    <apex:param value="{!u.Date__c}" /> 
+</apex:outputText></td>
+                <td>{!u.Product__r.Name__c}</td>
+        </tr>
+        </apex:repeat>
+        </tbody>
+    </table>
+</div>
+
+</apex:outputPanel>
+
+<div id="cu" style="display:none">
+<apex:outputPanel id="salePanel">
+
+<div class="boxes_style_7">
+                        <div class="boxes">
+                        <div class="row">
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Date</small></label>
+                            <apex:inputField value="{!sale.Date__c}" styleClass="form-control"/>
+                            
+                        </div>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Product:</small></label>
+                            <apex:selectList value="{!SelectedProductId}" multiselect="false" size="1" styleClass="form-control prodcu">
+                                <apex:selectOptions value="{!productOptions}"></apex:selectOptions>
+                            </apex:selectList>
+                            <!--<apex:inputField value="{!sale.Product__c}" styleClass="form-control"/>-->
+                        </div>
+                        
+                        
+                        
+                        
+                        <div class="col-xs-6 form-group">
+                        <a class="Button_style1 small SteelBlue" value="Save" onclick="saveCUJS(); return false;">Save</a>
+                        <a class="Button_style1 small silver" value="Cancel" onclick="cancelCUJS(); return false;">Cacel</a>
+                        </div>
+                        </div>
+                        </div>
+    </div>
+</apex:outputPanel>                           
+</div>
+</div>
+</apex:form>
+</apex:component>

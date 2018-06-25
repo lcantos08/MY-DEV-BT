@@ -1,0 +1,126 @@
+<apex:page sidebar="false" showHeader="false" controller="MAD_test" standardStylesheets="true">
+    <style type="text/css">
+       .pop{
+            background-color: #89BAC9;
+            border-style: solid;
+            border-width: 2px;
+            left: 50%;    
+            padding:10px;
+            position: absolute;
+            z-index: 99;
+            width: 360px;
+            margin-left: -180px;
+            top:-20px;
+        }
+    </style>
+
+<apex:composition template="Template">
+<apex:define name="header" />
+<apex:define name="bodyContent"> 
+                    
+    <apex:form id="Invite" >
+        <div align="center">
+    <table border="0" width="550" height="300" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center"><h3>YOU GOT</h3></td>
+        </tr>
+        <tr>
+            <td align="center"><font face="Lucida Console" size="20">{!uexam.Score__c}</font></td>
+        </tr>
+        <tr><td>&nbsp;<br />&nbsp;<br /></td></tr>
+        <tr>
+            <td align="center">{!uexam.Examination_ID__r.Promotion_Text__c }<br /></td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+            <td><apex:commandlink value="Challenge your friends" action="{!invite}" rerender="popInvite"/> to take this exam and compare your results. </td>
+        </tr>
+        <tr>
+            <td>See if your one of the best on our Leader Board &nbsp; <apex:outputLink value="http://athena-developer-edition.ap1.force.com/LeaderBoard">here.</apex:outputLink></td>
+        </tr>
+        <tr>
+            <td>Do you have the guts to conquer the Leader Board? take our other 
+            challenge &nbsp; <apex:outputLink value="http://athena-developer-edition.ap1.force.com">here.</apex:outputLink><br /></td>
+        </tr>
+    </table>
+</div>
+
+<!--pop up-->
+        <apex:outputPanel id="popInvite">
+            <apex:outputPanel styleClass="pop" layout="solid" rendered="{!displayInvite}">
+
+                <div align="center">
+                    <table border="0" width="340" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td colspan="3">
+                                <apex:outputpanel rendered="popInvite">
+                                <apex:pageMessages />
+                                </apex:outputpanel>
+                            </td>
+                        </tr>                    
+                        <tr>
+                            <td width="135">Friend's Name</td>
+                            <td width="15">&nbsp;</td>
+                            <td width="190" colspan="2">Friend's E-mail</td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><apex:inputText value="{!friendName1}" id="f1"/></td>
+                            <td valign="top">---</td>
+                                <td colspan="2"><apex:inputField id="invite1" value="{!Email.Recipient__c}"/></td>
+                        </tr>
+                        <tr height="2">
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><apex:inputText value="{!friendName2}"/></td>
+                            <td valign="top">---</td>
+                                <td colspan="2"><apex:inputField id="invite2" value="{!Email.Recipient__c}"/></td>
+                        </tr>
+                        <tr height="2">
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><apex:inputText value="{!friendName3}"/></td>
+                            <td valign="top">---</td>
+                                <td colspan="2"><apex:inputField id="invite3" value="{!Email.Recipient__c}"/></td>
+                        </tr>
+                        <tr height="2">
+                            <td></td>
+                        </tr>
+<!--                        <tr>
+                            <td><apex:inputText value="{!friendName4}"/></td>
+                            <td>---</td>
+                                <td colspan="2"><apex:inputField value="{!Email.Recipient__c}"/></td>
+                        </tr>
+                        <tr height="2">
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><apex:inputText value="{!friendName5}"/></td>
+                            <td>---</td>
+                                <td colspan="2"><apex:inputField value="{!Email.Recipient__c}"/></td>
+                        </tr>
+                        <tr height="2">
+                            <td></td>
+                        </tr>
+-->                        <tr>
+                            <td colspan ="3" height="10"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" align="right">
+                                <apex:commandButton value="Send" action="{!send}" rerender="popInvite"/>
+                                <apex:commandButton value="Cancel" action="{!cancel}" rerender="popInvite"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan ="3" height="10"></td>
+                        </tr>
+                    </table>
+                </div> 
+            </apex:outputPanel>
+        </apex:outputPanel>
+    </apex:form>
+</apex:define>
+<apex:define name="footer" />
+</apex:composition>    
+</apex:page>

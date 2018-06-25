@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>POC</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>POCS</value>
+    </caseValues>
+    <fields>
+        <label><!-- LongTextArea --></label>
+        <name>LongTextArea__c</name>
+    </fields>
+    <fields>
+        <label><!-- TA1 --></label>
+        <name>TA1__c</name>
+    </fields>
+    <fields>
+        <label><!-- TA2 --></label>
+        <name>TA2__c</name>
+    </fields>
+    <fields>
+        <label><!-- TA3 --></label>
+        <name>TA3__c</name>
+    </fields>
+    <fields>
+        <label><!-- TA4 --></label>
+        <name>TA4__c</name>
+    </fields>
+    <fields>
+        <label><!-- TA5 --></label>
+        <name>TA5__c</name>
+    </fields>
+    <fields>
+        <label><!-- TA6 --></label>
+        <name>TA6__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

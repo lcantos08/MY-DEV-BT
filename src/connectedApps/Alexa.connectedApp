@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>luisito_cantos@yahoo.com.ph</contactEmail>
+    <contactPhone>0422394743</contactPhone>
+    <label>Alexa</label>
+    <oauthConfig>
+        <callbackUrl>https://login.salesforce.com/services/oauth2/callback</callbackUrl>
+        <consumerKey>3MVG9Y6d_Btp4xp6xyYZZCEFEOLUIyQvYnuvrLoZvD4jmm4SugkinwirEeoPSHNLJeIFgK1IPdU8n9vvVBBg9</consumerKey>
+        <scopes>Full</scopes>
+    </oauthConfig>
+</ConnectedApp>

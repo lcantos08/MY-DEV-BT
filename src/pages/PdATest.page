@@ -1,0 +1,12 @@
+<apex:page >
+test
+<apex:form >
+
+<iframe src="/apex/SampleQuestion" width="100%" height="300">
+
+</iframe>
+</apex:form>
+
+
+
+</apex:page>

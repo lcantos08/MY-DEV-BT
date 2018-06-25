@@ -1,0 +1,321 @@
+<apex:page controller="BodyTechPageController" showHeader="false" sidebar="false" standardStylesheets="false" docType="HTML-5.0">
+<apex:includeScript value="{!$Resource.jquery_js}"/>
+<!--<apex:includeScript value="{!$Resource.bootstrapjs}"/>-->
+<apex:stylesheet value="{!$Resource.bootstrapcss}"/>
+
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/Skin.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/shortcodes.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/Container.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/InsidePage.css')}"/>
+<apex:includeScript value="{!URLFOR($Resource.theme, '/scripts/script.js')}"/>
+<style>
+.page {
+  width: 95%;
+  background-color: #fff;
+  margin: 20px auto 0px auto;
+  border: 1px solid #496077;
+  padding:10px;
+  
+}
+.header {
+  width: 95%;
+  background-color: #fff;
+  margin: 10px auto 0px auto;
+}
+.title {
+  display: block;
+  float: left;
+  text-align: left;
+  width: 95%;
+}
+.resp_margin{
+    padding: 30px !important;
+}
+a[class*="Button"].small {
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    line-height: 16px;
+}
+.label{
+    font-size:100% !important;
+}.boxes_style_7 .boxes1{
+    padding: 7px 15px 0px 15px !important;
+}
+</style>
+
+
+
+<div class="row" style="padding:10px 10px 0px 10px;" >
+<div class="col-sm-6">
+<img src="{!$Resource.logo}" height="120px"/>
+</div>
+
+<div class="col-sm-6">         
+                    <img src="{!$Resource.anna}" height="120px" style="float:right"/>               
+
+</div>
+
+</div>
+
+
+    
+    
+    
+    <script>
+    /*
+        $.fn.pageMe = function(opts){
+        
+    var $this = this,
+        defaults = {
+            perPage: 10,
+            showPrevNext: false,
+            hidePageNumbers: false
+        },
+        settings = $.extend(defaults, opts);
+    
+    var listElement = $this;
+    var perPage = settings.perPage; 
+    var children = listElement.children();
+    var pager = $('.pager');
+    
+    if (typeof settings.childSelector!="undefined") {
+        children = listElement.find(settings.childSelector);
+    }
+    
+    if (typeof settings.pagerSelector!="undefined") {
+        pager = $(settings.pagerSelector);
+    }
+    
+    var numItems = children.size();
+    var numPages = Math.ceil(numItems/perPage);
+
+    pager.data("curr",0);
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
+    }
+    
+    var curr = 0;
+    while(numPages > curr && (settings.hidePageNumbers==false)){
+        $('<li><a href="#" class="page_link">'+(curr+1)+'</a></li>').appendTo(pager);
+        curr++;
+    }
+    
+    if (settings.showPrevNext){
+        $('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
+    }
+    
+    pager.find('.page_link:first').addClass('active');
+    pager.find('.prev_link').hide();
+    if (numPages<=1) {
+        pager.find('.next_link').hide();
+    }
+    pager.children().eq(1).addClass("active");
+    
+    children.hide();
+    children.slice(0, perPage).show();
+    
+    pager.find('li .page_link').click(function(){
+        var clickedPage = $(this).html().valueOf()-1;
+        goTo(clickedPage,perPage);
+        return false;
+    });
+    pager.find('li .prev_link').click(function(){
+        previous();
+        return false;
+    });
+    pager.find('li .next_link').click(function(){
+        next();
+        return false;
+    });
+    
+    function previous(){
+        var goToPage = parseInt(pager.data("curr")) - 1;
+        goTo(goToPage);
+    }
+     
+    function next(){
+        goToPage = parseInt(pager.data("curr")) + 1;
+        goTo(goToPage);
+    }
+    
+    function goTo(page){
+        var startAt = page * perPage,
+            endOn = startAt + perPage;
+        
+        children.css('display','none').slice(startAt, endOn).show();
+        
+        if (page>=1) {
+            pager.find('.prev_link').show();
+        }
+        else {
+            pager.find('.prev_link').hide();
+        }
+        
+        if (page<(numPages-1)) {
+            pager.find('.next_link').show();
+        }
+        else {
+            pager.find('.next_link').hide();
+        }
+        
+        pager.data("curr",page);
+        pager.children().removeClass("active");
+        pager.children().eq(page+1).addClass("active");
+    
+    }
+};
+
+$(document).ready(function(){
+    
+//  $('.myTable').pageMe({pagerSelector:'.myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+    
+});
+*/
+    </script>
+
+
+<div style="padding:0px 10px 0px 10px">
+<hr class="dividers_4" />
+<div class="verticalTab_Left verticalTab_Left_1">
+    <ul class="resp-tabs-list">
+        <li class="resp-tab-item" onclick="setViewJS('ds')"><span><i class="glyphicons glyph-home"></i>&nbsp;&nbsp;&nbsp;Home</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('cs')"><span><i class="glyphicons glyph-heart"></i>&nbsp;&nbsp;&nbsp;Services</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('exp')"><span><i class="glyphicons glyph-barcode"></i>&nbsp;&nbsp;&nbsp;Expenses</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('ps')"><span><i class="glyphicons glyph-leaf"></i>&nbsp;&nbsp;&nbsp;Product Sale</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('cu')"><span><i class="glyphicons glyph-notes"></i>&nbsp;&nbsp;&nbsp;Clinic Use</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('at')"><span><i class="glyphicons glyph-calendar"></i>&nbsp;&nbsp;&nbsp;Attendance</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('co')"><span><i class="glyphicons glyph-ok"></i>&nbsp;&nbsp;&nbsp;Cutoff</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('pinv')"><span><i class="glyphicons glyph-list"></i>&nbsp;&nbsp;&nbsp;Inventory</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('cf')"><span><i class="glyphicons glyph-usd"></i>&nbsp;&nbsp;&nbsp;Cash Flow</span></li>
+        <li class="resp-tab-item" onclick="setViewJS('bt')"><span><i class="glyphicons glyph-bank"></i>&nbsp;&nbsp;&nbsp;Transaction</span></li>
+        <li class="resp-tab-item" onclick="loadGoogleChart()"><span><i class="glyphicons glyph-charts"></i>&nbsp;&nbsp;&nbsp;Reports</span></li>
+    </ul>
+    
+    
+    
+    <div class="resp-tabs-container">
+        <div class="resp_container">
+            <div class="resp_margin">
+             <apex:outputPanel id="ds">
+              <!--c:report_daily_summary rendered="{!If(p=='ds', true, false)}" /-->
+             </apex:outputPanel>
+              
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="cs">
+                <c:client_service rendered="{!If(p=='cs', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="exp">
+                <c:expense rendered="{!If(p=='exp', true, false)}" />
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="ps">
+                <c:product_sale viewM="ps" rendered="{!If(p=='ps', true, false)}"/>
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            <apex:outputPanel id="cu">
+                <!--c:clinic_use viewM="cu" rendered="{!If(p=='cu', true, false)}"/-->
+            </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="at">
+                <!--c:Attendance rendered="{!If(p=='at', true, false)}" /-->
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="co">
+                    <!--c:cutOff_summary rendered="{!If(p=='co', true, false)}" /-->
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            <apex:outputPanel id="pinv">
+                <!--c:product_inventory rendered="{!If(p=='pinv', true, false)}" /-->
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            <apex:outputPanel id="cf">
+                <!--c:cashFlow rendered="{!If(p=='cf', true, false)}" /-->
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <apex:outputPanel id="bt">
+                <!--c:banktransactions rendered="{!If(p=='bt', true, false)}"/-->
+                </apex:outputPanel>
+            </div>
+        </div>
+        <div class="resp_container">
+            <!--
+            <div class="resp_margin">
+                <apex:iframe src="/apex/reports"  />
+                
+            </div>
+            -->
+        </div>
+    </div>
+   
+    </div> 
+</div>
+
+
+<apex:form id="luif">
+<apex:actionFunction name="setViewFunc" action="{!setView}" reRender="pinv,ds,cs,ps,exp,bt,co,cf,at,cu,luif"  oncomplete="setComponentView()">
+<apex:param name="p" assignTo="{!p}" value=""/>
+</apex:actionFunction>
+
+<script>
+        setViewJS = function(i){
+           setViewFunc(i);
+        }
+        setComponentView = function(){
+            var p = '{!p}';
+            
+            if(p=='cs'){               
+                getClientServicesJS();
+            }/*
+            else if(p=='ps')
+                //getProductSalesJS();
+            else if(p=='cu')
+                //getClinicUseJS();
+            else if(p=='co'){
+               //getCutOffSummaryJS();
+            }
+            else if(p=='pinv'){
+                //getInventoryFunc();
+            }else{
+            }*/
+        }
+        function format2(n) {
+        if(n=='-')
+            return n;
+        n= Math.round(parseFloat(n) * 100) / 100;
+        return n.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+    </script>
+ 
+</apex:form>
+
+</apex:page>

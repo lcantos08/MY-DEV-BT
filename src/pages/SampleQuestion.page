@@ -1,0 +1,78 @@
+<apex:page showheader="false" standardstylesheets="true" controller="SampleQuestionController" >
+
+<script src="http://api.recaptcha.net/js/recaptcha_ajax.js" type="text/javascript" />
+<script type="text/javascript"     src="http://www.google.com/recaptcha/api/challenge?k=6Lef3MQSAAAAAHGK8ikIa-VEhEMQe8JNSpohVwBK">  </script>  <noscript>   
+  <iframe src="http://www.google.com/recaptcha/api/noscript?k=6Lef3MQSAAAAAHGK8ikIa-VEhEMQe8JNSpohVwBK"         height="300" width="500" frameborder="0"></iframe><br/> 
+      <textarea name="recaptcha_challenge_field" rows="3" cols="40"/>    <input type="hidden" name="recaptcha_response_field"         value="manual_challenge"/>  </noscript>
+     
+     
+
+     
+      <apex:form >
+       Correct User Response? : {!correctresponse}
+     <apex:inputhidden value="{!challenge}" id="challenge" />
+        <apex:inputhidden value="{!response}" id="response" />
+<script type="text/javascript">
+
+            function captureResponse() {
+               
+                document.getElementById('{!$Component.challenge}').value = document.getElementById('recaptcha_challenge_field').value;
+                document.getElementById('{!$Component.response}').value =document.getElementById('recaptcha_response_field').value;
+              }
+
+            </script>
+    
+      <apex:commandButton value="Submit"
+            action="{!verify}" onclick="captureResponse();"/>
+            
+             <input type="submit" value="Submit 4"
+             onclick="lui('hj','jk');"/>
+            </apex:form>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <script type="text/javascript">
+            function lui(a, b)
+
+{
+alert(a);
+    varoXmlHttp = new ActiveXObject("MSXML2.XMLHTTP");
+   alert(varoXmlHttp );
+    varoXmlHttp.open("POST",
+ "https://ap1-api.salesforce.com/services/Soap/class/MyWebService",
+ false);
+    varoXmlHttp.setRequestHeader("Content-Type", "text/xml");
+   
+    var res= oXmlHttp.responseXML.selectSingleNode("//verify").text;
+ alert (res);
+}
+            </script>
+            
+         <script>
+function lui(){
+window.top.location = "apex/examlist";
+}
+</script>   
+            
+            
+            
+            
+            
+            
+        <a href='/apex/examlist' target='_top'>click</a>    
+            <INPUT type="button" name="btnAction" value="Act" onclick="lui()"/>
+</apex:page>

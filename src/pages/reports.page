@@ -1,0 +1,46 @@
+<apex:page showHeader="false" sidebar="false" applyBodyTag="false" applyHtmlTag="false" docType="HTML-5.0">
+<apex:includeScript value="{!$Resource.jquery_js}"/>
+<apex:stylesheet value="{!$Resource.bootstrapcss}"/>
+<apex:includeScript value="{!$Resource.bootstrapjs}"/>
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/Skin.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/shortcodes.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/Container.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.theme, '/InsidePage.css')}"/>
+<apex:includeScript value="{!URLFOR($Resource.theme, '/scripts/script.js')}"/>
+  <style>
+  .resp-tabs-container{
+      height:800px !important;
+  }
+  </style>
+  
+  <div id="div_code" class="boxes_style_5" >
+        <div class="boxes">
+            <p><b>Enter Code: &nbsp; &nbsp;</b>
+            <input type='text' class='' id='txtcode'/>
+            </p>
+            <p><a class="Button_style1 small OliveDrab" onclick="validateReportCode(); return false;">Submit</a></p>            
+        </div>
+    </div>
+  
+  <script>
+      validateReportCode=function(){
+        
+          var c = $('#txtcode').val();
+          
+          if(c=='lui_anna17' || c=='skyrah'){
+              $('#report_div').css('display','block');
+              $('#div_code').css('display','none');
+          }else{
+              alert('Invalid code');
+              $('#div_code').css('display','block');
+          }
+          
+      }
+  </script>
+  <div id='report_div' style="display:none">
+  <c:report_month_sales_profit />
+  </div>
+  <script>
+      $('head').next().css("border-color","white")
+  </script>
+</apex:page>

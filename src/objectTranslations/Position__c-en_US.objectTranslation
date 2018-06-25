@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Position</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Positions</value>
+    </caseValues>
+    <fields>
+        <label><!-- Apex --></label>
+        <name>Apex__c</name>
+    </fields>
+    <fields>
+        <label><!-- C# --></label>
+        <name>C__c</name>
+    </fields>
+    <fields>
+        <label><!-- Close Date --></label>
+        <name>Close_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Days Open --></label>
+        <name>Days_Open__c</name>
+    </fields>
+    <fields>
+        <label><!-- Educational Requirements --></label>
+        <name>Educational_Requirements__c</name>
+    </fields>
+    <fields>
+        <label><!-- Functional Area --></label>
+        <name>Functional_Area__c</name>
+        <picklistValues>
+            <masterLabel>Finance</masterLabel>
+            <translation><!-- Finance --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Human Resources</masterLabel>
+            <translation><!-- Human Resources --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Information Technology</masterLabel>
+            <translation><!-- Information Technology --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Miscellaneous</masterLabel>
+            <translation><!-- Miscellaneous --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Retail Operations</masterLabel>
+            <translation><!-- Retail Operations --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Warehousing</masterLabel>
+            <translation><!-- Warehousing --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Hire By --></label>
+        <name>Hire_By__c</name>
+    </fields>
+    <fields>
+        <label><!-- Hiring Manager --></label>
+        <name>Hiring_Manager__c</name>
+        <relationshipLabel><!-- Positions --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Java --></label>
+        <name>Java__c</name>
+    </fields>
+    <fields>
+        <label><!-- Javascript --></label>
+        <name>Javascript__c</name>
+    </fields>
+    <fields>
+        <label><!-- Job Description --></label>
+        <name>Job_Description__c</name>
+    </fields>
+    <fields>
+        <label><!-- Job Level --></label>
+        <name>Job_Level__c</name>
+        <picklistValues>
+            <masterLabel>FN-100</masterLabel>
+            <translation><!-- FN-100 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>FN-200</masterLabel>
+            <translation><!-- FN-200 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>FN-300</masterLabel>
+            <translation><!-- FN-300 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>FN-400</masterLabel>
+            <translation><!-- FN-400 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>HR-100</masterLabel>
+            <translation><!-- HR-100 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>HR-200</masterLabel>
+            <translation><!-- HR-200 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>HR-300</masterLabel>
+            <translation><!-- HR-300 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>HR-400</masterLabel>
+            <translation><!-- HR-400 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>IT-100</masterLabel>
+            <translation><!-- IT-100 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>IT-200</masterLabel>
+            <translation><!-- IT-200 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>IT-300</masterLabel>
+            <translation><!-- IT-300 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>IT-400</masterLabel>
+            <translation><!-- IT-400 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>MC-100</masterLabel>
+            <translation><!-- MC-100 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>MC-200</masterLabel>
+            <translation><!-- MC-200 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>MC-300</masterLabel>
+            <translation><!-- MC-300 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>MC-400</masterLabel>
+            <translation><!-- MC-400 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>RO-100</masterLabel>
+            <translation><!-- RO-100 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>RO-200</masterLabel>
+            <translation><!-- RO-200 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>RO-300</masterLabel>
+            <translation><!-- RO-300 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>RO-400</masterLabel>
+            <translation><!-- RO-400 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>WH-100</masterLabel>
+            <translation><!-- WH-100 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>WH-200</masterLabel>
+            <translation><!-- WH-200 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>WH-300</masterLabel>
+            <translation><!-- WH-300 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>WH-400</masterLabel>
+            <translation><!-- WH-400 --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Location --></label>
+        <name>Location__c</name>
+        <picklistValues>
+            <masterLabel>Makati, Philippines</masterLabel>
+            <translation><!-- Makati, Philippines --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>New York, USA</masterLabel>
+            <translation><!-- New York, USA --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Singapore City, Singapore</masterLabel>
+            <translation><!-- Singapore City, Singapore --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Sydney, Australia</masterLabel>
+            <translation><!-- Sydney, Australia --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Max Pay --></label>
+        <name>Max_Pay__c</name>
+    </fields>
+    <fields>
+        <label><!-- Min Pay --></label>
+        <name>Min_Pay__c</name>
+    </fields>
+    <fields>
+        <label><!-- Open Date --></label>
+        <name>Open_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Responsibilities --></label>
+        <name>Responsibilities__c</name>
+    </fields>
+    <fields>
+        <label><!-- Skills Required --></label>
+        <name>Skills_Required__c</name>
+    </fields>
+    <fields>
+        <label><!-- Status --></label>
+        <name>Status__c</name>
+        <picklistValues>
+            <masterLabel>Closed - Canceled</masterLabel>
+            <translation><!-- Closed - Canceled --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Closed - Filled</masterLabel>
+            <translation><!-- Closed - Filled --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Closed - Not Approved</masterLabel>
+            <translation><!-- Closed - Not Approved --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>New Position</masterLabel>
+            <translation><!-- New Position --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Open - Approved</masterLabel>
+            <translation><!-- Open - Approved --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Open - Filled</masterLabel>
+            <translation><!-- Open - Filled --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Pending Approval</masterLabel>
+            <translation><!-- Pending Approval --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Travel Required --></label>
+        <name>Travel_Required__c</name>
+    </fields>
+    <fields>
+        <label><!-- Type --></label>
+        <name>Type__c</name>
+        <picklistValues>
+            <masterLabel>Contractor</masterLabel>
+            <translation><!-- Contractor --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Full Time</masterLabel>
+            <translation><!-- Full Time --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Internship</masterLabel>
+            <translation><!-- Internship --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Part Time</masterLabel>
+            <translation><!-- Part Time --></translation>
+        </picklistValues>
+    </fields>
+    <layouts>
+        <layout>IT Position Layout</layout>
+        <sections>
+            <label><!-- Compensation --></label>
+            <section>Compensation</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- Required Languages --></label>
+            <section>Required Languages</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Position Layout</layout>
+        <sections>
+            <label><!-- Compensation --></label>
+            <section>Compensation</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label><!-- Programming Language --></label>
+            <section>Programming Language</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <description><!-- Record type for all IT position --></description>
+        <label><!-- IT Position --></label>
+        <name>IT_Position</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Record type for all non - IT position --></description>
+        <label><!-- Standard Position --></label>
+        <name>Standard_Position</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Close Date must be specified
+when Status is set to &apos;Closed - Filled&apos; or &apos;Closed - Not
+Approved.&apos; --></errorMessage>
+        <name>Close_Date_Rule</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Ooops! Min pay cannot exceed Max Pay. --></errorMessage>
+        <name>Min_Pay_Rule</name>
+    </validationRules>
+</CustomObjectTranslation>

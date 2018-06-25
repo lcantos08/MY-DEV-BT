@@ -1,0 +1,103 @@
+<!-- 
+      Exam Page
+          _beejay
+-->
+
+<apex:page sidebar="false" cache="false" showHeader="false" standardStylesheets="true" controller="ExamControl" action="{!ExamStart}">
+        <apex:composition template="TemplateExam">
+        <apex:define name="header" />
+        <apex:define name="bodyExam">            
+                                <apex:form id="ScoreForm" >
+                                <font face="arial" size="4"><div id='load'> </div></font>
+                                <div id = 'main'>
+                                    <font face="arial" size="4"> {!q.question}</font><hr/><p/>
+                                    
+                                    <font face="arial" size="2">
+                                    <apex:selectRadio layout="pageDirection" value="{!answer}" onclick="process();">
+                                        <apex:selectOptions value="{!q.choicesOpt}"/>
+                                    </apex:selectRadio>
+                                    </font>
+            
+                                    <apex:actionFunction action="{!score}" name="sc" />
+                                    
+                                    <apex:inputhidden value="{!uscore.Score__c}"  id="SCinput"/>
+                                    <br/><br/>
+                                    
+                                    </div>
+                                    <div align="center">
+                                    <table border="0" width="600" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td>
+                                                <p align="right"><apex:outputText rendered="{!not(challenge)}"> <p align="right"><font face="arial" size="3"><b>{!qremain}</b> Question/s to go</font><br/></p></apex:outputText></p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    </div>
+                                    <script> 
+                                        var running=true;
+                                        var runningx=true;
+                                        var secs=<apex:outputText value="{!q.score}"/>  ;
+                                        var secFrz=-1 ;
+                                        document.getElementById("{!$Component.ScoreForm.SCinput}").value=secs;
+                                        document.getElementById("test").firstChild.nodeValue=secs ;
+                                        
+                                        //window.onbeforeunload = function () {return "";} //adds page reload on "back" button on IE (and other browsers)
+
+                                        var timestamp;
+                                        function countdown()//main countdown
+                                        { 
+                                            if(running)
+                                            {
+                                                var d = new Date();
+                                                elapsed=Number(secs-((d.getTime()-timestamp)/1000)).toFixed(1);
+                                                if (elapsed<=0)
+                                                {
+                                                    process();
+                                                    elapsed = 0;
+                                                }
+                                                else elapsed=Number(secs-((d.getTime()-timestamp)/1000)).toFixed(1);
+                                                runtime = Number(secs-((d.getTime()-timestamp)/1000)).toFixed(1);
+                                                document.getElementById("{!$Component.ScoreForm.SCinput}").value=elapsed;
+                                                document.getElementById("test").firstChild.nodeValue=document.getElementById("{!$Component.ScoreForm.SCinput}").value;
+                                                setTimeout("countdown()",100) ;
+                                            }
+                                        } 
+                                       
+                                        
+                                        function closeWindow() //hide the radiobuttons
+                                        {
+                                            document.getElementById("main").style.display='none';
+                                            //document.getElementById("load").firstChild.nodeValue="LOADING";
+                                        }
+                                        
+                                        function preCountdown() //5 seconds freezetime
+                                        { 
+                                            if(runningx)
+                                            {
+                                                secFrz+=1;
+                                                if (secFrz==5)
+                                                {
+                                                     var dx = new Date();
+                                                     timestamp = dx.getTime();
+                                                     runningx=false;
+                                                     countdown();
+                                                }
+                                                setTimeout("preCountdown()",1000) ;
+                                            }
+                                        } 
+    
+                                        function process() //processes the answer (or lack of answer)
+                                        {
+                                            closeWindow();
+                                            var d = new Date();
+                                            running=false;
+                                            //document.getElementById("{!$Component.ScoreForm.rad}").disabled=true;
+                                            sc();
+                                        }
+                                        preCountdown(); //start precountdown
+                                </script> 
+                            </apex:form>
+        </apex:define>
+        </apex:composition>
+        
+</apex:page>

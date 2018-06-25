@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Not Confirmed</fullName>
+        <default>true</default>
+        <label>Not Confirmed</label>
+    </customValue>
+    <customValue>
+        <fullName>Thess</fullName>
+        <default>false</default>
+        <label>Thess</label>
+    </customValue>
+    <customValue>
+        <fullName>Lui</fullName>
+        <default>false</default>
+        <label>Lui</label>
+    </customValue>
+    <customValue>
+        <fullName>Anna</fullName>
+        <default>false</default>
+        <label>Anna</label>
+    </customValue>
+    <masterLabel>Confirmed By</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

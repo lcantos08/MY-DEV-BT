@@ -1,0 +1,123 @@
+<apex:page showHeader="false" sidebar="false" controller="NewProfileController" standardStylesheets="true">
+
+        <apex:composition template="Template">
+        <apex:define name="header" />
+        <apex:define name="bodyContent" >
+        <table border="0" width="650">
+        <tr><td align="left"><font size="5" face="Britannic Bold">Profile</font><br /></td></tr>
+        </table>
+<div align="center">
+    <apex:pageMessages />
+    <apex:outputpanel rendered="{!activationLink}">   
+        <apex:pagemessage severity="warning" strength="3">
+            This email has already been registered but not yet activated. Would you like to send another activation link?
+            <apex:form >
+            <apex:commandButton value="Email activation link" action="{!emailActivationLink}"/>
+            </apex:form>
+        </apex:pagemessage>
+    </apex:outputpanel>
+    <table border="0" width="600" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="10"></td>
+        </tr>
+        <tr>
+            <td width="310" colspan="2"><h2>NEW USER</h2></td>
+            <td width="19" align="center">&nbsp;</td>
+            <td width="271"><h2>EXISTING USER</h2></td>
+        </tr>
+        <tr>
+            <td height="3"></td>
+        </tr>
+        <tr>
+            <td width="13">&nbsp;</td>
+            <td width="297">
+            <table border="0" width="310" height= "150" cellspacing="0" cellpadding="0">
+            <apex:form id="NewProfileForm">
+                <tr>
+                    <td width="92">&nbsp;</td>
+                    <td width="229" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="92" align="left"><apex:outputLabel value="First Name: " /></td>
+                    <td width="229" colspan="2" align="left"><apex:inputField value="{!userProfile.FirstName__c}" /></td>
+                </tr>
+                <tr>
+                    <td width="92" align="left"><apex:outputLabel value="Last Name:  " /></td>
+                    <td width="229" colspan="2" align="left"><apex:inputField value="{!userProfile.LastName__c}" /></td>
+                </tr>
+                <tr>
+                    <td width="92" align="left"><apex:outputLabel value="Email: " /></td>
+                    <td width="229" colspan="2" align="left"><apex:inputField value="{!userProfile.Email__c}" /></td>
+                </tr>
+                <tr>
+                    <td width="92" align="left"><apex:outputLabel value="Location: " /></td>
+                    <td width="229" colspan="2" align="left"><apex:inputField value="{!userProfile.Location__c}" required="true"  /></td>
+                </tr>
+                <tr>
+                    <td width="92">&nbsp;</td>
+                    <td width="122">&nbsp;</td>
+                    <td width="50">&nbsp;</td>
+                </tr> 
+                <tr>
+                    <td width="92">&nbsp;</td>
+                    <td width="122">&nbsp;</td>
+                    <td width="60"><apex:commandButton value="Register" action="{!register}"/></td>
+                </tr>
+                <tr>
+                    <td width="92">&nbsp;</td>
+                    <td width="122">&nbsp;</td>
+                    <td width="50">&nbsp;</td>
+                </tr>
+            </apex:form>
+            </table>
+            </td>
+            <td width="19">
+            &nbsp;</td>
+            <td width="271">
+            <table border="0" width="271" height= "153" cellspacing="0" cellpadding="0">
+            <apex:form id="ExistingUsersForm">
+                <tr>
+                    <td width="83">&nbsp;</td>
+                    <td width="188" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="50">&nbsp;&nbsp;<apex:outputLabel value="Email: " /></td>
+                    <td width="220" colspan="2" align="left"><apex:inputText value="{!userEmail}" size="27" /><apex:inputText style="display: none"/></td>
+                </tr>
+                <tr>
+                    <td width="83">&nbsp;</td>
+                    <td width="188" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="83">&nbsp;</td>
+                    <td width="50">&nbsp;</td>
+                    <td width="60"><apex:commandButton value="Send link to profile" action="{!sendProfile}"/><br/></td>
+                </tr>
+                <tr>
+                    <td height="21" width="83">&nbsp;</td>
+                    <td height="21" width="188" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="83">&nbsp;</td>
+                    <td width="188" colspan="2">&nbsp;<br/></td>
+                </tr>
+                <tr>
+                    <td width="83">&nbsp;</td>
+                    <td width="188" colspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="83">&nbsp;</td>
+                    <td width="188" colspan="2">&nbsp;</td>
+                </tr>
+            </apex:form>    
+            </table>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+        </apex:define>
+        <apex:define name="footer" />
+        </apex:composition>    
+</apex:page>

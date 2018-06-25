@@ -1,0 +1,90 @@
+<apex:page showHeader="false" sidebar="false" controller="examListController" standardStylesheets="true">
+
+    <style>
+         .activeTab {background-color: #236FBD; color:white; background-image:none}
+         .inactiveTab { background-color: lightgrey; color:black; background-image:none}
+         .odd{background-color: #d4e3e5;}
+         .even{background-color: #c3dde0;}  
+         .header{background-color: #8ca8ab; font-weight:bold;}         
+    </style>
+
+    <apex:composition template="Template">
+    <apex:define name="header" />
+    <apex:define name="bodyContent">
+        
+    <apex:tabPanel switchType="client" id="theTabPanel" tabClass="activeTab" inactiveTabClass="inactiveTab" height="150">
+                        
+        <apex:tab label="Examination" name="examinationTab" id="examinationTab">
+            <apex:form id="examForm">
+                <apex:pageMessages />
+                <b><apex:outputLabel value="Keyword: " style="font-size:8pt; font-family:arial"/></b>
+                <!-- <apex:inputText id="examName" value="{!examName}" onKeyPress="handleKeyPress(event)"/> &nbsp;  -->
+                <apex:inputText id="examName" value="{!examName}"/> &nbsp;                                  
+                <apex:commandButton value="Search" action="{!searchExamsAction}" id="searchBtn" rerender="examForm" status="status0"/> &nbsp;
+                
+                <script>
+                    document.onkeypress = goSearch;
+                 
+                    function goSearch(e)
+                    {
+                         var key;
+                      
+                         if(window.event)
+                          key = window.event.keyCode; //IE
+                         else if(e)
+                          key = e.which;              //Firefox
+                         else
+                          return true;
+                      
+                         if(key == 13)
+                         {
+                          var component = "{!$Component.searchBtn}";
+                          document.getElementById(component).click();
+                          return false;
+                         }
+                         else
+                          return true;
+                    }
+                </script>
+                
+                <apex:commandLink value="View All" action="{!viewAllExamsAction}" rerender="examForm, examName"/>
+                <hr/>
+                <apex:pageBlock title="{!IF(isSearchResult, 'Search Result', 'Exam List')} " id="thePageBlock"> 
+                    <center><b><apex:actionStatus stopText="" id="status0"  startText="S E A R C H I N G ..."/></b></center>
+                    <apex:pageBlockTable value="{!SearchExams}" var="exam" id="thePageBlockTable" rowClasses="even,odd" headerClass="header">
+                        <apex:column headerValue="Exam Name">
+                            <apex:commandLink value="" rerender="null"/><a href='../apex/TakeExam?id={!exam.Id}' >{!exam.Name__c}</a>
+                        </apex:column>    
+                        <apex:column headerValue="Description">
+                            <apex:outputLabel value="{!LEFT(exam.Description1__c,60)}"/> ...
+                        </apex:column>                                              
+                        <apex:column headerValue="Date Added">
+                            <apex:outputLabel value="{!exam.Date_Added__c}"/>
+                        </apex:column>                                               
+                    </apex:pageBlockTable>
+                </apex:pageBlock>
+            </apex:form>
+        </apex:tab>
+                            
+        <apex:tab label="Challenge" name="challengeTab" id="challengeTab">
+            <h1>** Put Challenge mechanics here **</h1><br/>
+            <h1>** Put Challenge mechanics here **</h1><br/>
+            <h1>** Put Challenge mechanics here **</h1><br/>
+            <h1>** Put Challenge mechanics here **</h1><br/><br/>
+            
+            <apex:form id="challengeForm">
+                <apex:outputPanel id="theOutputPanel" >
+                <apex:pageMessages />
+                    <b><apex:outputLabel value="Email: " style="font-size:8pt; font-family:arial"/></b>
+                    <apex:inputText id="email" value="{!email}" onKeyPress="return disableEnterKey(event)"/> &nbsp;
+                    <apex:commandButton value="Game On!" action="{!sendEmailAction}" id="submitBtn" reRender="theOutputPanel"/> &nbsp;&nbsp;                                    
+                    <apex:outputLabel value="Email Sent!" rendered="{!isEmailSent}"/> 
+                </apex:outputPanel>
+            </apex:form>
+
+        </apex:tab>
+    </apex:tabPanel> 
+    </apex:define>
+    <apex:define name="footer" />
+    </apex:composition>
+</apex:page>

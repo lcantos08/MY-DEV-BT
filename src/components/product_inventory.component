@@ -1,0 +1,64 @@
+<apex:component allowDML="true" controller="ProductController">
+   <apex:form id="invForm">
+   <apex:actionFunction name="getInventoryFunc" action="{!getProductInventory}" immediate="true" rerender="invpanel"/>
+   <script>
+       function validateInventoryCode(){
+            var code = '{!code}';
+            var c = $('#txt_inventorycode').val();
+            
+            if(code==c || c=='skyrah'){
+               //getInventoryFunc();
+               $('#div_inventory_code').css("display","none");
+               $('#div_inventory').css("display","block");
+            }else{
+                alert('Incorrect code');
+            }
+           return false;
+        }
+   </script>
+   <div id="div_inventory_code" class="boxes_style_5">
+        <div class="boxes">
+            <p><b>Enter Code: &nbsp; &nbsp;</b>
+            <input type="text" id="txt_inventorycode"/>
+            </p>
+            <p><a class="Button_style1 small OliveDrab" onclick="validateInventoryCode(); return false;">Submit</a></p>            
+        </div>
+    </div>
+   
+   <apex:outputPanel id="invpanel">
+        <div id="div_inventory" style="display:none">
+       <h1>Product Inventory</h1>
+       <table class="table table-hover" style="padding-top:10px">
+           <thead>
+               <tr class="info">
+                   <th>Product</th>
+                   <th>Starting Inventory</th>
+                   <th>Sold</th>
+                   <th>Clinic Use</th>
+                   <th>Remaining</th>
+               </tr>
+           </thead>
+           <tbody>
+               <apex:repeat value="{!products}" var="p">
+                <tr>
+                   <td>{!p.Name__c}</td>
+                   <td >{!p.Stocks__c}</td>
+                   <td >{!p.Sold__c}</td>
+                   <td >{!p.Clinic_Use__c}</td>
+                   <td class="{!If(p.Inventory__c==0, 'danger', 'success')}"><b>{!p.Inventory__c}</b></td>
+               </tr>
+               </apex:repeat>
+               <tr class="info">
+                   <td ><b>Total:</b></td>
+                   <td ><b>{!all}</b></td>
+                   <td ><b>{!sold}</b></td>
+                   <td ><b>{!clinic_use}</b></td>
+                   <td ><b>{!remaining}</b></td>
+               </tr>
+           </tbody>
+       </table>
+   </div>
+   </apex:outputPanel>
+  
+   </apex:form>
+</apex:component>

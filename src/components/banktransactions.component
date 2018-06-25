@@ -1,0 +1,213 @@
+<apex:component controller="BankTransactionController" allowDML="true">
+
+<div id="div_confirm_bank" class="modal fade confirm-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm</h4>
+      </div>
+      <div class="modal-body">
+        <div class="boxes">
+            <p><b>Enter Code: &nbsp; &nbsp;</b>
+            <input type="text" id="txt_bank_confirm" class="form-control" value="{!code}"/>
+            </p>
+               
+        </div>
+      </div>
+      <div class="modal-footer">
+      <input type="button" class="btn btn-sm btn-success" value="Confirm"  onclick="validateCode()" />
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<apex:form id="tran">
+<script>
+    createNewTranJS = function(){
+        $('#transactionList').hide();
+        $('#transaction').show();
+    }
+    saveTranJS = function(){
+        saveTranFunc();
+    }
+    deleteTranJS = function(id){
+        var del = confirm('Are you sure you want to delete this record?')
+        if (del)
+            deleteTranFunc(id);
+    }
+    
+    setSelectedTranJS = function(){
+        $('#transactionList').hide();
+        $('#transaction').show();
+    }
+    
+    cancelTranJS = function(){
+        $('#transactionList').show();
+        $('#transaction').hide();
+    }
+    
+    var sid ='';
+    showConfirmModal= function(id){
+        sid=id;       
+        $('#div_confirm_bank').modal({'backdrop': 'static'});
+        $('#txt_bank_confirm').val('');
+    }
+    
+    validateCode=function(){
+        var c = $('#txt_bank_confirm').val();
+        var v = false;
+        if(c=='skyrah' || c== 'lui_anna17' || c=='lui'){
+            v=true;
+        }
+        if(v){
+            confirmTranFunc(sid,c);
+        }    
+        else{
+        
+            alert('Invalid code');
+            $('#txt_bank_confirm').val('')
+            return false;
+        }
+            
+    }
+    
+    
+    
+</script>
+
+<apex:actionFunction action="{!createNewTran}" name="createNewTranFunc" oncomplete="createNewTranJS();" rerender="tran"/>
+
+
+<apex:actionFunction action="{!confirm}" name="confirmTranFunc" rerender="tran" oncomplete="$('#div_confirm_bank').modal('hide');" >
+<apex:param value="" name="tranId"/>
+<apex:param value="" name="code"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!deleteTran}" name="deleteTranFunc" rerender="tran" >
+<apex:param value="" name="tranId"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!save}" name="saveTranFunc" rerender="tran" >
+</apex:actionFunction>
+
+<apex:actionFunction action="{!setSelectedTran}" name="setSelectedTranFunc" rerender="tran" oncomplete="setSelectedTranJS()" >
+<apex:param value="" name="tranId"/>
+</apex:actionFunction>
+
+<div >
+<h3>Bank Transactions</h3>
+
+
+
+
+
+<apex:outputPanel id="transactionPanelList">
+
+
+<div id="transactionList">
+
+
+<a target="blank" href="" class="Button_style1 small SteelBlue" value="Add new" onclick="createNewTranFunc();">Add New</a>
+<p/>
+<table class="table table-hover" id="usersTable">
+            <thead>
+            <tr class="info">
+                <th>Action</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                
+                
+            </tr>
+            </thead>
+            <tbody class="myTable">
+            <apex:repeat value="{!transactions}" var="m">
+              <tr>
+                <td>
+                
+                <div style="display:{!If(m.Confirmed_By__c=='Not Confirmed' || m.Confirmed_By__c==null, 'block' , 'none')}">
+                
+                <a target="blank" href="" class="Button_style1 small GoldenOrange" value="Edit" id="btnEdit_{!m.Id}" onclick="setSelectedTranFunc('{!m.id}'); return false;" >Edit</a> | 
+                <a target="blank" href="" class="Button_style1 small silver" value="Delete" id="btnDelete_{!m.Id}" onclick="deleteTranJS('{!m.id}'); return false;" >Delete</a> |                
+                <a target="blank" href="" class="Button_style1 small OliveDrab" value="Confirm" id="btnConfirm_{!m.Id}" onclick="showConfirmModal('{!m.id}'); return false;" >Confirm</a>
+                
+                </div>
+                <div style="display:{!If(m.Confirmed_By__c!='Not Confirmed' && m.Confirmed_By__c!=null, 'block' , 'none')}">
+                    <i>Confirmed by {!m.Confirmed_By__c}</i>
+                </div>
+                
+                </td>
+                <td>
+                <apex:outputText value="{0,date,MM/dd/YYYY}" >
+    <apex:param value="{!m.Date__c}" />
+</apex:outputText>
+                </td>               
+                <td>{!m.Type__c}</td>
+                <td><apex:outputText value="{0, number, ###,###,##0.00}">
+<apex:param value="{!m.Amount__c}" />
+</apex:outputText></td>
+                
+              </tr>
+          </apex:repeat>
+          </tbody>
+      </table>
+      <div class="col-md-12 text-center">
+      <ul class="pagination pagination-md pager myPager" id=""></ul>
+      </div>
+
+</div>
+<div id="transaction" style="display:none">
+<apex:outputPanel id="expensePanel">
+<div class="boxes_style_7">
+    <div class="boxes">
+<div class="row">
+<h4>Add new Bank Transaction</h4>
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Date</small></label>
+                            <apex:inputField value="{!tran.Date__c}" styleClass="form-control"/>
+                            
+                        </div>
+                        
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Type:</small></label>
+                            
+                            <apex:inputField value="{!tran.Type__c}" styleClass="form-control"/>
+                        </div>
+                       
+                        
+                        <div class="col-xs-6 form-group">
+                            <label class="control-label" ><small>Amount:</small></label>
+                            <apex:inputField value="{!tran.Amount__c}" styleClass="form-control"/>
+                        </div>
+                        
+                       
+                        
+                        
+                        <div class="col-xs-6 form-group">
+                        <a target="blank" href="" class="Button_style1 small SteelBlue" value="Save" onclick="saveTranJS(); return false">Save</a>
+                        <a target="blank" href="" class="Button_style1 small silver" value="Cancel" onclick="cancelTranJS (); return false;">Cancel</a>
+                        </div>
+    </div>
+    </div>
+    </div>
+</apex:outputPanel>                           
+</div>
+</apex:outputPanel>
+</div>
+
+<script>
+   setPagingBS = function(){
+        $('.myTable').pageMe({pagerSelector:'.myPager',showPrevNext:true,hidePageNumbers:false,perPage:15});
+    }   
+    setPagingBS();
+</script>
+</apex:form>
+
+</apex:component>

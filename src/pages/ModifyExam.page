@@ -1,0 +1,35 @@
+<apex:page controller="ModifyExamControl">
+<apex:form >
+<apex:selectList value="{!ex}" size="1">
+    <apex:selectOptions value="{!opt}"></apex:selectOptions>
+
+</apex:selectList>
+<apex:commandButton value="go" action="{!LoadQuestions}"/>
+<apex:pageBlock rendered="{!(tr==true)}">
+
+<p/>
+
+Quesion Pool
+<br/>
+<apex:selectList value="{!quest}" size="10">
+    <apex:selectOptions value="{!questPool}"></apex:selectOptions>
+</apex:selectList>
+<p/>
+<apex:commandButton value="add" action="{!add}" rerender="cur"/>
+
+<apex:commandButton value="remove" action="{!remove}" rerender="cur"/>
+<p/>
+Questions in category<br/>
+<apex:outputPanel id="cur"> 
+<apex:pageMessage rendered="{!mes==1}" severity="2" title="Error: Question Already Present">Please choose another.</apex:pageMessage>
+<apex:pageMessage rendered="{!mes==2}" severity="2" title="Questions Saved"></apex:pageMessage>
+<apex:selectList value="{!curquest}" size="10" >
+    <apex:selectOptions value="{!currentQuest}"></apex:selectOptions>
+</apex:selectList>
+</apex:outputPanel>
+<p/>
+<apex:commandButton value="save" action="{!save}" rerender="cur"/>
+</apex:pageBlock>
+</apex:form>
+
+</apex:page>

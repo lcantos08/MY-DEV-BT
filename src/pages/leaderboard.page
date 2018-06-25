@@ -1,0 +1,117 @@
+<apex:page showHeader="false" sidebar="false" controller="LeaderboardController" standardStylesheets="false">
+        <apex:composition template="Template">
+        <apex:define name="header" />
+        <apex:define name="bodyContent">
+        <table border="0" width="300">
+        <tr><td align="left"><font size="5" face="Britannic Bold">Leader Board</font><br /></td></tr>
+        </table> 
+        <style>
+            th {text-aligh:right;}
+            td {
+                    text-align:left;                   
+               }
+        </style>
+
+        
+        <script>
+        /*
+            function selectChallengeFunction()        
+            {
+               selectChallenge();               
+            }
+            function selectExaminationFunction()        
+            {
+               selectExamination();               
+            }
+            function selectWeeklyFunction()        
+            {
+               selectWeekly();               
+            }
+            function selectOverallFunction()        
+            {
+               selectOverall();               
+            }
+       */
+       </script>
+       <apex:form >
+        <!-- apex:actionFunction id="selectChallenge" name="selectChallenge" action="{!selectChallenge}"/>
+        <apex:actionFunction id="selectExamination" name="selectExamination" action="{!selectExamination}"/>
+        <apex:actionFunction id="selectWeekly" name="selectWeekly" action="{!selectWeekly}"/>
+        <apex:actionFunction id="selectOverall" name="selectOverall" action="{!selectOverall}"/ -->
+        
+        <table>
+        <tr>
+            <td><apex:outputText >Test type: </apex:outputText></td>
+            <td>            
+                <apex:selectList value="{!selectedExaminationType}" multiselect="false" size="1"  >                
+                    <apex:selectOptions value="{!ExaminationTypes}"/>
+                    <apex:actionSupport event="onchange" action="{!selectExaminationTypeFunction}"   status="status"/>    
+                </apex:selectList>
+            </td>
+            <!-- td><apex:commandLink id="Examination" onclick="selectExaminationFunction()" reRender="theLeaderboard" status="status">Examination</apex:commandLink></td>
+            <td><apex:commandLink id="Challenge" onclick="selectChallengeFunction()" reRender="theLeaderboard" status="status">Challenge</apex:commandLink></td -->
+        </tr>
+        <tr>
+            <td><apex:outputText >Date Range: </apex:outputText></td>
+            <td>            
+                <apex:selectList value="{!selectedDateRange}" multiselect="false" size="1"  >                
+                    <apex:selectOptions value="{!DateRanges}"/>
+                    <apex:actionSupport event="onchange" action="{!selectDateRangeFunction}"  rerender="theLeaderboard"   status="status"/>    
+                </apex:selectList>
+            </td>
+            <!-- td><apex:commandLink id="Weekly" onclick="selectWeeklyFunction()" reRender="theLeaderboard" status="status">Weekly</apex:commandLink></td>
+            <td><apex:commandLink id="Overall" onclick="selectOverallFunction()" reRender="theLeaderboard" status="status">Overall</apex:commandLink></td -->
+        </tr>
+        
+        <apex:outputPanel id="examinationNamePanel" rendered="{!!isChallenge}">
+        <tr>
+            <td><apex:outputText >Examination name: </apex:outputText></td>
+            <td colspan="2">
+            <apex:selectList value="{!selectedExaminationId}" multiselect="false" size="1"  rendered="{!!ISNULL(examinationId)}">                
+                <apex:selectOptions value="{!Examinations}"/>
+                <apex:actionSupport event="onchange" action="{!selectExaminationIdFunction}"  rerender="theLeaderboard"   status="status"/>
+            </apex:selectList>
+            </td>
+            
+        </tr>
+        </apex:outputPanel>
+        </table>                               
+        </apex:form>
+        
+        
+        <br/>
+        <hr/>
+        <br/>
+
+           <apex:pageMessage summary="This leaderboard refreshes every 10 minutes" severity="info" strength="1" /> 
+                               
+       <apex:outputPanel id="theLeaderboard"  >   
+        <apex:pageMessage summary="No exams have been taken" rendered="{!if(Leaderboard.size==0, true,false)}" severity="info" strength="1" />
+            <apex:actionstatus id="status" startText="Loading leaderboard..."> 
+                <apex:facet name="stop">
+                    <apex:outputText rendered="{!if(Leaderboard.size==0, true,false)}" >NONE</apex:outputText>                            
+                    <apex:outputPanel rendered="{!if(Leaderboard.size==0, false,true)}" >                       
+                    <apex:pageblock >
+                    <apex:pageBlockTable value="{!Leaderboard}" var="Ranking">
+                        <apex:column headerValue="Rank" value="{!Ranking.Rank__c}" />
+                        <apex:column headerValue="Name"  >
+                        <apex:outputLink value="/apex/Profile?id={!Ranking.User_Profile_ID__c}" ><apex:outputText value="{!Ranking.User_Name__c}"/></apex:outputlink>
+                        </apex:column>
+                        <apex:column headerValue="Repetitions" value="{!Ranking.Trial__c}"  rendered="{!!isChallenge}"/>
+                        <apex:column headerValue="Best Score" value="{!Ranking.Best_Score__c}"  rendered="{!!isChallenge}"/>
+                        <apex:column headerValue="Points" value="{!Ranking.Best_Score__c}"  rendered="{!isChallenge}"/>  
+                        <apex:column headerValue="Average" value="{!Ranking.Average__c}" rendered="{!Not(isChallenge)}"/>                                              
+                    </apex:pageBlockTable>
+                    </apex:pageblock>
+                    
+                    
+                    </apex:outputPanel>     
+                </apex:facet> 
+            </apex:actionstatus> 
+        
+        </apex:outputPanel>  
+                                  
+        </apex:define>
+        <apex:define name="footer" />
+        </apex:composition>
+</apex:page>

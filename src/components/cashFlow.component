@@ -1,0 +1,132 @@
+<apex:component allowDML="true" controller="CashFlowController">
+<script>
+    getCashFlowJS=function(){
+        $('#div_cashFlow').html('Retrieving data...');
+        getCashFlowFunc();
+    }
+    
+    var flows = [];  
+</script>
+<apex:form id="cashflowform">
+
+<apex:actionFunction name="getCashFlowFunc" action="{!getCashFlow}" rerender="cashflowform" oncomplete="setupCashFlowTable()"/>
+<apex:actionFunction name="checkValidFunc" action="{!validate}" rerender="cashflowform" oncomplete="checkValid()"/>    
+    <h3>Daily Cashflow Summary</h3>
+    
+    <div id="div_code" class="boxes_style_5" style="display:{!If(valid,'none','block')}">
+        <div class="boxes">
+            <p><b>Enter Code: &nbsp; &nbsp;</b>
+            <apex:inputText value="{!codeToValidate}"/>
+            </p>
+            <p><a class="Button_style1 small OliveDrab" onclick="checkValidFunc(); return false;">Submit</a></p>            
+        </div>
+    </div>
+    
+    <div style="padding-bottom:30px">
+    <a class="Button_style1 small SteelBlue" onclick="$('#div_cashFlow').html('Retrieving data...');getCashFlowFunc(); return false;" id='btn_refresh' style="display:{!If(valid,'block','none')}; float:right">Refresh</a> <br/>
+    </div>
+    <div id="div_cashFlow" style="display:{!If(valid,'block','none')}"/>
+       
+    <script> 
+    checkValid = function(){
+        var v = {!valid};
+        if(v){
+            getCashFlowJS();
+        }else{
+            alert('Invalid code');
+            
+        }    
+    }
+    
+    getCashFlowData = function(){ 
+    flows = [];    
+    <apex:repeat value="{!cashFlows}" var="c">        
+        var s = new Object();         
+        s["date"] = '{!c.mDate}';        
+        s["netSales"] = '{!c.netSales}';
+        s["expenseAmount"] = '{!c.expenseAmount}' =='0' ? '-' : '{!c.expenseAmount}';
+        s["commisions"] = '{!c.commisions}' == '0' ? '-' : '{!c.commisions}';
+        s["amountWithdrawn"] = '{!c.amountWithdrawn}' =='0' ? '-' : '{!c.amountWithdrawn}';
+        s["amountDeposited"] = '{!c.amountDeposited}' =='0' ? '-' : '{!c.amountDeposited}';
+        s["grossService"] = '{!c.grossService}' == '0' ? '-' : '{!c.grossService}';
+        s["runningTotal"] = '{!c.runningTotal}' =='0' ? '-' : '{!c.runningTotal}';
+        s["cashOnHand"] = '{!c.cashOnHand}';
+        s["mallRent"] = '{!c.mallRent}' =='0' ? '-' : '{!c.mallRent}';
+        s["salary"] = '{!c.salary}' == '0' ? '-' : '{!c.salary}';
+        s["misc"] = '{!c.misc}' == '0' ? '-' : '{!c.misc}';
+        s["permits"] = '{!c.permits}' == '0' ? '-' : '{!c.permits}';
+        s["productOrder"] = '{!c.productOrder}' == '0' ? '-' : '{!c.productOrder}';
+        s["royaltyFee"] = '{!c.royaltyFee}' == '0' ? '-' : '{!c.royaltyFee}';
+        s["productSales"] = '{!c.grossProductSales}' == '0' ? '-' : '{!c.grossProductSales}';
+        s["megacommissions"] = '{!c.megacommissions}' == '0' ? '-' : '{!c.megacommissions}';
+        flows.push(s);
+        
+    </apex:repeat>
+       
+    }
+    
+    
+     </script>
+    
+    <script>
+        
+        function setupCashFlowTable (){
+            getCashFlowData();
+            var div = $('#div_cashFlow');
+            div.html('');
+            
+            var tbl = '<table class="table table-hover">';
+            var headers = ["Date","Gross Service", "Product Sales", "Comms.", "Prod Comms.",  "Expenses", "Net Sales" , "Xentro", "Salary", "Prod. Order", "Royalty Fee", "Permits", "Misc.",  "Deposit", "Withdraw", "Cash On Hand", "Account Bal."];
+            tbl+='<thead>';
+            tbl+='<tr class="info">';
+            for(var h in headers){
+                tbl+='<th>'+headers[h]+'</th>';
+            }            
+            tbl+='</tr>';
+            tbl+='</thead>'; 
+            tbl+='<tbody class="myTable">';
+            for(var c in flows){
+                var f = flows[c];
+                tbl+='<tr>';
+                tbl+='<td>'+toJSONLocal(f.date)+'</td>';
+                tbl+='<td>'+format2(f.grossService)+'</td>';
+                tbl+='<td>'+format2(f.productSales)+'</td>';
+                tbl+='<td>'+format2(f.commisions)+'</td>';
+                tbl+='<td>'+format2(f.megacommissions)+'</td>';
+                tbl+='<td>'+format2(f.expenseAmount)+'</td>';
+                tbl+='<td>'+format2(f.netSales)+'</td>';
+                tbl+='<td>'+format2(f.mallRent)+'</td>';
+                tbl+='<td>'+format2(f.salary)+'</td>';
+                tbl+='<td>'+format2(f.productOrder)+'</td>';
+                tbl+='<td>'+format2(f.royaltyFee)+'</td>';
+                tbl+='<td>'+format2(f.permits)+'</td>';
+                tbl+='<td>'+format2(f.misc)+'</td>';      
+                tbl+='<td>'+format2(f.amountDeposited)+'</td>';
+                tbl+='<td>'+format2(f.amountWithdrawn)+'</td>';
+                tbl+='<td>'+format2(f.cashOnHand)+'</td>';
+                tbl+='<td>'+format2(f.runningTotal)+'</td>';
+                tbl+='</tr>';
+            }
+             tbl+='</tbody>';
+            tbl+='</table>';           
+            
+            div.append(tbl);
+            
+            div.append('<div class="col-md-12 text-center"><ul class="pagination pagination-md pager myPager" id=""></ul></div>');
+            setPagingCF();
+        }
+        
+        
+        setPagingCF = function(){
+            $('.myTable').pageMe({pagerSelector:'.myPager',showPrevNext:true,hidePageNumbers:false,perPage:30});
+        }
+        
+        function toJSONLocal (date) {        
+            var local = new Date(date);
+            return (local.getMonth()+1)+'/'+local.getDate()+'/'+(local.getYear()+1900);
+                       
+        }
+        
+    </script>
+    </apex:form>
+</apex:component>

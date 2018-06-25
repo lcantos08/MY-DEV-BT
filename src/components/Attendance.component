@@ -1,0 +1,297 @@
+<apex:component controller="AttendanceController" allowDML="true">
+<div id="div_confirm_attendance" class="modal fade confirm-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm Attendance {!Selecteddate}</h4>
+      </div>
+      <c:confirmation ptype="day" pobjectType="attendance" pdateStr="{!selecteddate}" />
+    </div>
+
+  </div>
+</div>
+
+<apex:form id="lui_form">
+<style>
+  .readonly input{ pointer-events:none; }
+  </style>
+<apex:actionFunction action="{!setSelecteddate}" immediate="true" name="confirmAttendanceFunc" rerender="confirmForm" oncomplete="$('#div_confirm_attendance').modal('show');">
+    <apex:param value="" name="d"/>
+    <apex:param value="" name="m"/>
+    <apex:param value="" name="y"/>
+</apex:actionFunction>
+<apex:actionFunction action="{!upsertAttendance}" immediate="true" name="upsertAttendanceFunc" rerender="lui"  >
+<apex:param value="" name="day"/>
+<apex:param value="" name="status"/>
+<apex:param value="" name="staffId"/>
+</apex:actionFunction>
+
+<apex:actionFunction action="{!getMonthlyAttendance}" immediate="true" name="getMonthlyAttendanceFunc" rerender="xxxx" oncomplete="setTable()"  >
+<apex:param value="" name="y"/>
+<apex:param value="" name="m"/>
+</apex:actionFunction>
+<style>
+.cbhov+div{display:none;}
+.cbhov:hover+div{display:inline;}
+</style>
+
+<h1>Attendance</h1>
+   
+   <div style="padding:10px">
+    <div class="form-group">
+        <div class="col-md-6">
+            Year: <select id="yearId_att" class="form-control" value="{!selectedYear}">
+                  <option value="0">--Select--</option>
+                  <option value="2016">2016</option>
+                  <option value="2015">2015</option>
+                  </select>
+        </div>
+        <div class="col-md-6">
+            Month : <select id="monthId_att" class="form-control" value="{!selectedMonth}" >
+                  <option value="0">--Select--</option>
+                  <option value="1">Jan</option>
+                  <option value="2">Feb</option>
+                  <option value="3">Mar</option>
+                  <option value="4">Apr</option>
+                  <option value="5">May</option>
+                  <option value="6">Jun</option>
+                  <option value="7">Jul</option>
+                  <option value="8">Aug</option>
+                  <option value="9">Sep</option>
+                  <option value="10">Oct</option>
+                  <option value="11">Nov</option>
+                  <option value="12">Dec</option>
+                  </select>
+        </div>
+    </div>
+    </div>
+   
+   <apex:outputPanel id="xxxx">
+   
+  <div id="div_attendance" style="padding-top:50px"/>
+  
+  <script>
+  var staffs= [];
+  var attendanceList = []; 
+  </script> 
+    <apex:repeat value="{!staffs}" var="s"> 
+        <script> 
+            var o = new Object();
+            o.id = '{!s.Id}';
+            o.name = '{!s.Alias__c}';
+            if(o.name=='Aida')
+            o.color = '#D4FFFF';
+            else if(o.name=='Annie Mae')
+            o.color = '#FFF9D0';
+            else if(o.name=='Roda')
+            o.color = '#D1ECC9';
+            else if(o.name=='Lennett')
+            o.color = '#FDE8E5';
+            staffs.push(o); 
+        </script> 
+    </apex:repeat>
+    
+    <apex:repeat value="{!attendanceList}" var="a">
+        <script> 
+           
+           
+           
+            var o = new Object();
+            o.id = '{!a.attendance.Id}';
+            o.staffId= '{!a.attendance.Staff__r.Id}';
+            o.staff= '{!a.attendance.Staff__r.Alias__c}';
+            o.date= '{!a.attendance.Date__c}';
+            o.day = '{!a.day}';
+            o.status= '{!a.attendance.Type__c}'; 
+            o.confirmed_by = '{!a.attendance.Confirmed_By__c}';
+          
+            attendanceList.push(o); 
+        </script> 
+    </apex:repeat>
+  
+  
+  
+  
+  
+  </apex:outputPanel>
+  
+</apex:form>
+
+<script>    
+      confirmAttendanceJS= function(d){
+          var y = $('#yearId_att').val();
+          var m = $('#monthId_att').val();
+          confirmAttendanceFunc(d,m,y);
+      }   
+      
+      refreshConfirmedRecords= function(t){  
+     
+        if(t=='attendance')
+             setMonth();
+     }
+         
+      setTable=function(){
+          var d = $('#div_attendance');
+          var y = $('#yearId_att').val();
+          var m = $('#monthId_att').val();
+          var today = new Date();
+          var dd = today.getDate();
+          var mm = today.getMonth()+1; //January is 0!
+          var yyyy = today.getFullYear();
+
+          var tbl = '<table class="table">';
+          tbl+='<thead>';
+          tbl+='<tr >';
+          tbl+='<th colspan="2" style="background-color:#fff; font-weight:bold; text-align:center; border: 0px solid #fff !important;"></th>';
+          //tbl+='<th style="background-color:#fff; font-weight:bold; text-align:center; border: 0px solid lightgray"></th>';
+          var st =new Array();
+          st = '{!staffs}';
+          
+          for(var s in staffs){
+              var color = staffs[s].color+';';
+              tbl+='<th colspan="3" style="text-align:center; border:1px solid lightgray; background-color:#FDE8E5">'+staffs[s].name+'</th>';
+          }
+          
+          tbl+='</tr>';   
+          tbl+='</thead>';
+          tbl+='<tbody>';
+          
+          tbl+='<tr style="background-color:#FDE8E5; font-weight:bold">';
+          tbl+='<td colspan="2" style="background-color:#fff; font-weight:bold; border: 0px solid #fff !important;"></td>';
+         
+          
+          var xxx= [];
+          xxx.push('In');
+          xxx.push('Half-Day');
+          xxx.push('Off');
+          
+          for(var s in staffs){
+              for(s=0; s<xxx.length; s++){
+                  var x = xxx[s];
+                  
+                  tbl+='<td style="text-align:center; border: 1px solid lightgray;">'+x+'</td>';
+              }
+          }
+         
+          
+          tbl+='</tr>';
+          
+          var days = '{!monthDays}';
+          
+          for(i=1; i<=days; i++){
+              var thisDay = new Date(y, m-1, i, 0, 0, 0, 0);
+              
+              tbl+='<tr>';
+              tbl+='<td style="background-color:#FDE8E5; border: 1px solid lightgray; width:50px">';
+              if (today>=thisDay){
+                  var con = false;
+                  var cby = '';
+                  for(var at in attendanceList){
+                      var att = attendanceList[at];
+                      if(att.day==i){
+                          con = (att.confirmed_by !='' && att.confirmed_by!='Not Confirmed') ? true : false;
+                          cby=att.confirmed_by;
+                          break;
+                      }
+                  }
+                  if(!con)
+                      tbl+= '<a class="Button_style1 small OliveDrab" onclick="confirmAttendanceJS('+i+') return false;" value="Confirm">Confirm<a>';       
+                  else
+                      tbl+= '<i>Confirmed By '+ cby+ '</i>';              
+              }
+              tbl+='</td>';
+              
+              tbl+='<td style="background-color:#FDE8E5; font-weight:bold; text-align:center">';
+              tbl+=i;
+              tbl+='</td>';
+              for(var s in staffs){
+                  for(var x in xxx){
+                      var id = i+'_'+xxx[x] +'_'+staffs[s].id;
+                      var c = 'cb '+i+'_'+staffs[s].id;
+                      var cid = 'cb_'+id;
+                      var color = staffs[s].color+';';
+                      
+                      var info = staffs[s].name + ' - ' + xxx[x];
+                      
+                      tbl+='<td style="background-color:#f9f9f9; border: 1px solid lightgray; min-width:50px; text-align:center; max-width:150px !important" id="'+id+'">';
+                      if (today>=thisDay){
+                          var div = '<input type="checkbox" class="'+c+'" id="'+cid+'" val="'+xxx[x]+'"></input>';                      
+                          tbl+=div;
+                      }
+                      tbl+='</td>';
+                  }
+              }
+              
+              tbl+='</tr>';
+          }
+          
+          
+          tbl+='</tbody>';  
+          tbl+='</table>';   
+          
+          d.html(tbl);   
+         
+          
+          for(var a in attendanceList){
+              var at = attendanceList[a];
+              var idin = 'cb_'+at.day+'_'+at.status+'_'+at.staffId;    
+              var con = (at.confirmed_by !='' && at.confirmed_by!='Not Confirmed') ? true : false;
+              $('#'+idin).prop('checked',true);
+              tr=null;
+              if(con){
+                  if(tr==null)
+                      tr= $('#'+idin).parent().parent();
+              }
+              if(tr!=null){
+                  tr.addClass('readonly');
+              }
+         }
+         
+         //alert(attendanceList);
+         bindcb();
+      }
+    
+      
+      $('#yearId_att').change(function(a,e){
+          setMonth();
+      })
+      $('#monthId_att').change(function(a,e){
+          setMonth();
+      })
+     
+     function setMonth(){
+         var y = $('#yearId_att').val();
+         var m = $('#monthId_att').val();      
+         getMonthlyAttendanceFunc(y,m);
+         
+     }
+     
+     function bindcb(){
+         $('.cb').change(function(a,e){
+      
+          var id = ($(this).attr("id"));
+          
+          var c= '.'+($(this).attr("class")).replace('cb ','');
+          $(c).each(function(){
+              var o = $(this);
+              if($(this).attr("id")!=id)
+                  $(this).prop('checked', false);
+          });
+          
+          var day = id.split('_')[1];
+          var status = id.split('_')[2];
+          var staffId= id.split('_')[3];
+          
+          upsertAttendanceFunc(day,status,staffId);
+          
+          
+      });
+     }
+     
+  </script>
+  
+  
+</apex:component>

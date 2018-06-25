@@ -1,0 +1,220 @@
+<apex:component allowDML="true" controller="CutOffController">
+<div id="div_confirm_cutoff" class="modal fade confirm-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirm CutOff</h4>
+      </div>
+      <c:confirmation ptype="record" pobjectType="cutoff" precordId="{!SelectCutOffId}" />
+    </div>
+
+  </div>
+</div>
+<apex:form id="cutoffform">
+    <h3>Cutoff Summary</h3>
+    <apex:actionFunction name="setSelectedCuttOffFunc" action="{!setSelectedCutOff}" oncomplete="$('#div_confirm_cutoff').modal('show');" rerender="">
+        <apex:param name="cutoffId" value="" assignTo="{!SelectCutOffId}"/>
+    </apex:actionFunction>
+    <apex:actionFunction name="getCutOffSummaryFunc" action="{!getAllCutOffSummaries}" oncomplete="getData();" rerender="cutoffform"/>
+    <div id="div_cutOff"/>
+    <script>
+        function getCutOffSummaryJS(){
+            var div = $('#div_cutOff');
+            div.html('Retrieving data...');
+            getCutOffSummaryFunc();
+        }
+        var summaries= [];
+        var staffs=[];
+        
+    </script>
+    <script>  
+    
+    function getData(){
+      summaries = [];
+      
+    <apex:repeat value="{!AllCutOffSummaries}" var="co"> 
+        
+        var s = new Object();         
+        var summaryList = [];
+        var cutOff = new Object();
+        cutOff["id"] = '{!co.cutOff.id}';
+        cutOff["start"] = '{!co.cutOff.Start__c}';
+        cutOff["end"] = '{!co.cutOff.End__c}';
+        cutOff["confirmed_by"] = '{!co.Confirmed_By}';
+        <apex:repeat value="{!co.staffSummaryList}" var="ss">
+            var staffSummary = new Object();
+            var attendance = [];
+            
+            <apex:repeat value="{!ss.attendance}" var="a">
+                var att = new Object();
+                att["id"] = '{!a.id}';    
+                att["date"] = new Date('{!a.Date__c}');
+                att["staffId"] = '{!a.Staff__c}';
+                att["status"] = '{!a.Type__c}';     
+                attendance.push(att);
+            </apex:repeat>
+            
+            staffSummary["attendance"] = attendance; 
+            var staff = new Object();
+            staff["id"] = '{!ss.staff.id}';
+            staff["name"] = '{!ss.staff.Alias__c}';
+            staffSummary["staff"] =  staff; 
+            
+            var ct= new Object();
+            ct["id"] = '{!ss.cutOff.id}';
+            ct["start"] = '{!ss.cutOff.Start__c}';
+            ct["end"] = '{!ss.cutOff.End__c}';
+            ct["confirmed_by"] = '{!ss.cutoff.Confirmed_By__c}';
+          //  alert('{!ss.cutOff.id}');
+            staffSummary["cutOff"] =  ct;          
+            staffSummary["grossSalary"] = '{!ss.grossSalary}'; 
+            
+            summaryList.push(staffSummary);
+        </apex:repeat> 
+        
+        s["cutOff"] = cutOff;
+        s["summaries"] = summaryList;
+        
+        summaries.push(s);
+        
+    </apex:repeat>
+    <apex:repeat value="{!staffs}" var="x"> 
+     
+            var o = new Object();
+            o.id = '{!x.Id}';
+            o.name = '{!x.Alias__c}';            
+            staffs.push(o); 
+     </apex:repeat>
+    
+    
+    setupCutOffTable(summaries, staffs);
+    }
+     </script>
+    
+    <script>
+        function setupCutOffTable (data, th){
+            
+           
+           var tbl = '<table class="table table-hover table-bordered" >';   
+           tbl+='<tr style="text-align:center; font-weight:bold; background-color:lightblue"><td/><td/>';
+           for(y=0; y<th.length; y++){
+               var staff = th[y];                    
+               tbl+='<td colspan="4">'+staff.name+'</td>'; 
+           }
+                               
+            tbl+='</tr>';
+            tbl+='<tr style="text-align:center"><td>Action</td><td>Cut Off</td>';
+            for(y=0; y<th.length; y++){
+                    var staff = th[y];                    
+                    tbl+='<td>Salary</td>'; 
+                    tbl+='<td colspan="3" style="text-align:center">Attendance</td>'; 
+            }
+            tbl+='</tr>';
+            
+            tbl+='<tr style="text-align:center"><td/><td/>';
+            for(y=0; y<th.length; y++){
+                    var staff = th[y];                    
+                    tbl+='<td></td>'; 
+                    tbl+='<td>IN</td>'; 
+                    tbl+='<td>Half Day</td>'; 
+                    tbl+='<td>Off</td>'; 
+            }
+            
+            tbl+='<td class="success">Total salary</td>'; 
+            tbl+='</tr>';
+           
+            for(i=0; i<data.length; i++){
+                var s = data[i];
+                var totalSalary = 0;
+                var cutOff = s.cutOff;
+               
+                tbl+='<tr>';
+                
+                tbl+='<td>';   
+                var con = cutOff.confirmed_by=='Not Confirmed' || cutOff.confirmed_by==='undefined' || cutOff.confirmed_by==''? false : true;
+                if(con){             
+                    tbl+='<i>Confirmed by '+ cutOff.confirmed_by+'</i>';
+                }
+                else
+                    tbl+='<a target="blank" href="" class="Button_style1 small OliveDrab" onclick="confirmCutOff(\''+cutOff.id+'\'); return false;">Confirm</a>';
+                
+                tbl+='</td>'
+                
+                tbl+='<td>';                
+                tbl+=''+toJSONLocal(cutOff.start)+ ' - ' +''+toJSONLocal(cutOff.end);
+                tbl+='</td>';
+                
+                var staffrecords = s.summaries;
+                
+                for(y=0; y<th.length; y++){
+                    var staff = th[y];  
+                    var salary = 0;
+                    var present=0;
+                    var absent=0;
+                    var hd =0;
+                                      
+                    for(var r in staffrecords){
+                        if(staffrecords[r].staff.id==staff.id && staffrecords[r].cutOff.id==cutOff.id){                            
+                            salary = staffrecords[r].grossSalary;
+                            for(var a in staffrecords[r].attendance){
+                                var baseSalary= 100;
+                                var at = staffrecords[r].attendance[a];
+                                if (at.status=='In'){
+                                    present++;
+                                }
+                                else if(at.status=='Half-Day')
+                                    hd++;
+                                else if(at.status=='Off')
+                                    absent++;    
+                            }
+                            
+                           tbl+='<td> Php: '+format2(salary)+ '</td>';
+                           tbl+='<td style="text-align:center"> '+ present+'</td>';
+                           tbl+='<td style="text-align:center"> '+ hd+'</td>';
+                           tbl+='<td style="text-align:center"> '+ absent+'</td>';
+                           
+                           totalSalary += parseFloat(salary);
+                           
+                           break;
+                        }
+                    } 
+                }
+                
+                tbl+='<td class="danger" style="text-align:right">';                
+                tbl+= format2(totalSalary);
+                tbl+='</td>'
+                
+                tbl+='</tr>';
+            }
+           
+            tbl+='</table>';
+            var div = $('#div_cutOff');
+            div.html('');
+            div.append(tbl);
+        }
+        //setupCutOffTable();
+        
+        function toJSONLocal (date) {
+        
+            var local = new Date(date);
+            return (local.getMonth()+1)+'/'+local.getDate()+'/'+(local.getYear()+1900);
+            
+        }
+        
+        confirmCutOff = function(id){
+            setSelectedCuttOffFunc(id);
+           
+        }
+        
+        refreshConfirmedRecords= function(t){        
+            if(t=='cutoff')
+                getCutOffSummaryFunc();
+         }
+     
+        
+    </script>
+   </apex:form>
+</apex:component>

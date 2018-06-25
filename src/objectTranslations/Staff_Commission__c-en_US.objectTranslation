@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Staff Commission</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Staff Commissions</value>
+    </caseValues>
+    <fields>
+        <label><!-- Amount --></label>
+        <name>Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Client Service --></label>
+        <name>Client_Service__c</name>
+        <relationshipLabel><!-- Staff Commissions --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Date --></label>
+        <name>Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Product Sale --></label>
+        <name>Product_Sale__c</name>
+        <relationshipLabel><!-- Staff Commissions --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Staff --></label>
+        <name>Staff__c</name>
+        <relationshipLabel><!-- Staff Commissions --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

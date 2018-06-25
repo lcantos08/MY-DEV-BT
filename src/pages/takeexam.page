@@ -1,0 +1,34 @@
+<apex:page showHeader="false" sidebar="false" controller="TakeExamController" standardStylesheets="true" action="{!checkParameters}">
+        <apex:composition template="Template">
+        <apex:define name="header" />
+        <apex:define name="bodyContent">
+            <b>Title: </b>{!exam.Name__c}<br /><br />
+            <b>Description: </b> 
+            <br />
+            <br />
+            {!exam.Description1__c}{!exam.Description2__c}
+            <br />
+            <br />
+            <h1>Instructions:</h1>              
+            <p>The Quiz is presented to you in a simple and standard format.  Quiz Question types includes Multiple Choice and True/False. In order to proceed to the next question, the user should choose an answer among the choices. Each question has a time limit depending on the question’s difficulty and number of choices. </p>
+            <p>Note: If the user exceeds the time allotted for a certain question, then the answer for that question will be marked as “WRONG”. He/she will then proceed to the next question.  </p>
+
+            <br />                                  
+            <apex:pageMessages />                                                                
+            <apex:form id="TakeExamForm" rendered="{!!startExam}">
+                <apex:outputLabel value="Email: " />    <apex:inputText style="display:none"/><apex:inputText value="{!userEmail}"/> 
+                <apex:commandButton value="Send examination link" action="{!sendExamLink}"/>
+            </apex:form>                
+            
+            
+            <apex:form id="StartExamForm" rendered="{!startExam}">
+                
+                <apex:commandButton value="Start Examination" action="{!startExam}" rendered="{!!resumeExam}" />
+                <apex:commandButton value="Resume Examination" action="{!startExam}" rendered="{!resumeExam}" />
+                
+            </apex:form> 
+                                              
+        </apex:define>
+        <apex:define name="footer" />
+        </apex:composition>
+</apex:page>

@@ -1,0 +1,161 @@
+<!-- Designed by Maku -->
+<!-- 
+     Converted all tables to CSS Divs. There should be no more problems with the layout.
+     Added other images to the preloader. Removed the SWF on the preloader
+     _beejay 10/01/09 2000hrs
+-->
+
+<apex:page sidebar="false" showHeader="false" standardStylesheets="true">
+<script type="text/javascript">
+function preloadIContents() 
+{
+    image1 = new Image();
+    image1.src ="{!URLFOR($Resource.images_test, 'upload2/BG.jpg')}";
+    image2 = new Image();
+    image2.src ="{!URLFOR($Resource.images_test, 'upload2/header1.png')}";
+    image3 = new Image();
+    image3.src ="{!URLFOR($Resource.images_test, 'upload2/r1l.png')}";
+    image11 = new Image();
+    image11.src ="{!URLFOR($Resource.images_test, 'upload2/repeat.png')}";
+    image12 = new Image();
+    image12.src ="{!URLFOR($Resource.images_test, 'upload2/footer.png')}";
+    image13 = new Image();
+    image13.src ="{!URLFOR($Resource.images_test, 'upload2/body.png')}";
+    image14 = new Image();
+    image14.src ="{!URLFOR($Resource.images_test, 'upload2/r5r.png')}";
+    image15 = new Image();
+    image15.src ="{!URLFOR($Resource.images_test, 'upload2/header3.png')}";
+    image16 = new Image();
+    image16.src ="{!URLFOR($Resource.images_test, 'upload2/Ehead.png')}";
+    image17 = new Image();
+    image17.src ="{!URLFOR($Resource.images_test, 'upload2/Erepeat.png')}";
+    image18 = new Image();
+    image18.src ="{!URLFOR($Resource.images_test, 'upload2/Efoot.png')}";
+    image19 = new Image();
+    image19.src ="{!URLFOR($Resource.images_test, 'upload2/BG.jpg')}";
+}
+</script> 
+
+<style>
+
+#header {
+    position:relative;
+    left:0px;
+    top:0px;
+    width:850px;
+    height:60px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/header1.png')}");
+}
+#botpane {
+    position:relative;
+    width:850px;
+    height:52px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/header3.png')}");
+}
+#rightpane {
+    position:absolute;
+    left:725px;
+    width:125px;
+    height:80px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/r5r.png')}");
+}
+#leftpane {
+    position:absolute;
+    left:0px;
+    width:125px;
+    height:80px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/r1l.png')}");
+}
+
+#swfDiv {
+    position:relative;
+    width:850px;
+    left:0px;
+    height:80px;
+    z-index:0;
+    
+}
+#bodyHead {
+    position:relative;
+    width:850px;
+    height:41px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/body.png')}");
+}
+
+#body {
+    position:relative;
+    left:0px;
+    overflow:visible;
+    width:850px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/repeat.png')}");
+    background-repeat: repeat-y;
+}
+
+#bodyfoot {
+    position:relative;
+    left:0px;
+    width:850px;
+    overflow:visible;
+    height:160px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/footer.png')}");
+    
+}
+
+#Wrapper {
+    height:auto;
+    overflow:visible;
+    position:relative;
+    width:850px;
+    border:1px;
+    margin: auto;
+    text-align:left;
+}
+
+
+</style>
+
+<apex:insert name="header"/>
+
+<head>
+<title>ATHENA</title>
+
+
+</head>
+<body topmargin="0" background="{!URLFOR($Resource.images_test, 'upload2/BG.jpg')}" onLoad="preloadIContents()">
+    <div align="center">
+        <div id="header"></div>
+            <div id="swfDiv">
+                <div id="leftpane"/>
+                <div id="rightpane"/>
+                <embed src="{!URLFOR($Resource.images_test, 'upload2/header2.swf')}" height="80" width="600"/>
+            </div>
+        <div id="botpane"></div>
+        
+        <apex:insert name="body"/>
+        <div id="bodyHead"></div>
+        <div id="body" align="left">
+    
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                            <td width="96"><!--dont put anything here--></td>
+                            <td>
+<!--page content here-->    <apex:insert name="bodyContent"/>
+                            </td>
+                            <td width="85"><!--dont put anything here--></td>
+                        </tr>
+
+                </table>
+        </div>
+        <apex:insert name="footer"/>
+        <div id="bodyfoot"></div>
+   </div>
+</body>
+
+</apex:page>

@@ -1,0 +1,450 @@
+<apex:component controller="ReportController">
+    <apex:form id="form">
+    <style>
+  .horizontalTab_Top_2 .resp-tabs-container{
+      height:800px !important;
+  }
+  </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>  
+    
+     <apex:outputPanel id="panelscripts">
+     
+     
+    <script type="text/javascript">
+        var year = '{!selectedYear}';
+        function loadGoogleChart(){
+           google.charts.load('current', {'packages':['corechart', 'bar']});
+          
+        }
+      
+      getDayRank = function(){
+          var data = JSON.parse('{!lui}').data;
+          
+          for(var m in data){
+              var c = data[m];
+              for(var a in c.count_array){
+                  var d = c.count_array[a];
+                  
+              }
+          }
+          
+      }
+     
+        function getMonthlyDayChart(){
+     getDayRank ();
+            var data = google.visualization.arrayToDataTable({!monthServiceDayData});
+            var options = {
+                chart: {
+                    title: 'Monthly Service Count Per Day of Week',
+                    subtitle: 'Year-'+year,            
+                },
+                axes: {
+                    y: {
+                        all: {
+                            format: {
+                                pattern: 'decimal'
+                            }
+                        },
+              
+                    }
+                  }
+                };
+            setTimeout(function(){
+                var chart = new google.charts.Bar(document.getElementById('dayxxx'));
+                chart.draw(data, options);
+            },200);
+      }
+      
+      function getMonthlyCategoryChart(){
+        var data1 = google.visualization.arrayToDataTable({!monthServiceCategoryData });
+
+        var options1 = {
+          chart: {
+            title: 'Monthly Service Count By Type',
+            subtitle: 'Year-'+year,
+            
+          },
+          axes: {
+            y: {
+                all: {
+                    format: {
+                        pattern: 'decimal'
+                    }
+                },
+              distance: {label: 'parsecs'}, // Left y-axis.
+              brightness: {side: 'right', label: 'apparent magnitude'} // Right y-axis.
+            }
+          }
+        };
+        
+        setTimeout(function(){
+            var chart1 = new google.charts.Bar(document.getElementById('catxxx'));
+            chart1.draw(data1, options1);
+        },200);
+      }
+      
+      function getMonthlyProfitChart(){
+        var data = google.visualization.arrayToDataTable({!monthSalesProfitData});
+
+        var options = {
+          title: 'Spa Monthly Performance',
+          chartArea: {width: '100%'},
+          axes: {
+            y: {
+                all: {
+                    format: {
+                        pattern: 'decimal'
+                    }
+                },
+              
+            }
+          },
+        hAxis: {
+          title: 'Amount (Php)',
+          minValue: 0,
+        },
+        vAxis: {
+          title: 'Month'
+        },
+        annotations: {
+          alwaysOutside: true,
+          textStyle: {
+            fontSize: 12,
+            auraColor: 'none',
+            color: '#555'
+          },
+          boxStyle: {
+            stroke: '#ccc',
+            strokeWidth: 1,
+            gradient: {
+              color1: '#f3e5f5',
+              color2: '#f3e5f5',
+              x1: '0%', y1: '0%',
+              x2: '100%', y2: '100%'
+            }
+          }
+        },  
+        
+        };
+        setTimeout(function(){
+            var chart = new google.visualization.BarChart(document.getElementById('profitxxx'));
+            chart.draw(data, options); 
+            createPropitSummary();  
+        },200);
+      }
+      
+      function createPropitSummary (){
+          var d= '{!groupedData}';
+          var div = $('#profitSummary');
+          div.html('');
+          var tbl = '<table class="table table-bordered">';
+          tbl+='<thead><tr class="info"><th style="text-align:right">Month</th><th style="text-align:right">Gross</th><th style="text-align:right">Expense</th><th style="text-align:right">Net Income</th></tr></thead>';
+          tbl+='<tbody>';
+          var total =0;
+          var gross = 0;
+          var ex = 0;
+          
+          var data= new Array();
+            <apex:repeat value="{!groupedData}" var="a">
+            var o = new Object();
+            o["month"] = '{!a.monthN}';
+            o["gross"]= '{!a.grossSales}';
+            o["expense"]= '{!a.expenses}';
+            o["net"]= '{!a.profit}';            
+            data.push(o);
+            </apex:repeat>
+          
+          for(var i=0; i<data.length; i++){
+           var c= data[i];             
+           total += parseFloat(c.net); 
+           gross += parseFloat(c.gross);
+           ex += parseFloat(c.expense);
+           tbl+='<tr><td style="font-size:0.97rem; text-align:right; font-family:Calibri">'+c.month+'</td><td style="font-size:0.97rem; font-family:Calibri; text-align:right">'+format2(parseFloat(c.gross))+'</td><td style="font-size:0.97rem; font-family:Calibri; text-align:right">'+format2(parseFloat(c.expense))+'</td><td style="font-size:0.97rem; font-family:Calibri; text-align:right">'+format2(parseFloat(c.net))+'</td></tr>';
+         }
+        
+         
+          tbl+='<tr class="success" ><td  style="font-size:1.02rem; text-align:right; font-family:Calibri">Total: Php </td><td style="font-size:1.02rem; font-family:Calibri; text-align:right">'+format2(gross)+'</td><td style="font-size:1.02rem; font-family:Calibri; text-align:right">'+format2(ex)+'</td><td style="font-size:1.02rem; font-family:Calibri; text-align:right">'+format2(total)+'</td></tr>';
+          tbl+='</tbody></table>';
+         
+          div.append(tbl);
+          
+         var pie = [['Item','Amount'],['Expenses',+ex],['Net',+total]];
+         
+         getProfitPieChart(pie);
+          
+      }
+      
+    function format2(n) {
+        n= Math.round(parseFloat(n) * 100) / 100;
+        return n.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+     
+      
+      function getDayPieChart(){
+      
+        var data = google.visualization.arrayToDataTable({!dayServiceData});
+
+        var options = {
+          title: 'Service Count Per Day',
+          width:650,
+          is3D:true,         
+          legend: {
+          position: 'labeled'
+        },
+        pieSliceText: 'value'
+        };
+        
+        setTimeout(function(){
+            var chart = new google.visualization.PieChart(document.getElementById('daypiexxx'));
+            chart.draw(data, options);
+        },200);
+
+      }
+      
+      function getProfitPieChart(data){
+      
+        var data = google.visualization.arrayToDataTable(data);
+
+        var options = {
+          title: 'Overall Performance',
+          width:650,
+          is3D:true,         
+          legend: {position: 'labeled' },
+            pieSliceText: 'value',
+            slices: {
+            0: { color: '#DC3912' },
+            1: { color: '#0D854B' }
+          }
+        };
+        
+        setTimeout(function(){
+            var chart = new google.visualization.PieChart(document.getElementById('profitPie'));
+            chart.draw(data, options);
+        },200);
+
+      }
+      
+      
+      function getMonthlyExpenseChart(cat){
+        
+        var data1 = cat=='type' ? google.visualization.arrayToDataTable({!monthExpenseTypeData}) : google.visualization.arrayToDataTable({!monthExpenseCategoryData});
+        var stacked = cat=='category';
+        var title = 'Monthly Expenses By ';
+        title +=  cat=='type' ? 'Type' : 'Category';
+        var options1 = {
+          isStacked: stacked,
+          title:title,
+          chart: {
+            title: title,
+            subtitle: 'Year-'+year,
+           
+      
+          },
+          axes: {
+            y: {
+                all: {
+                    format: {
+                        pattern: 'decimal'
+                    }
+                },
+              distance: {label: 'parsecs'}, // Left y-axis.
+              brightness: {side: 'right', label: 'apparent magnitude'} // Right y-axis.
+            }
+          }
+        };
+        
+        setTimeout(function(){
+            var chart1 = cat=='type' ?  new google.charts.Bar(document.getElementById('expenseType')) : new google.visualization.ColumnChart(document.getElementById('expenseCategory'));
+            chart1.draw(data1, options1);
+        },200);
+      }
+      
+      function getMonthlyStaffCommission(){
+     
+          var data1 = google.visualization.arrayToDataTable({!monthStaffCommissionData});
+
+        var options = {
+      title : 'Monthly Staff Commission',
+      vAxis: {title: 'Amount (Php)'},
+      hAxis: {title: 'Month'},
+      seriesType: 'bars',
+      series: {4: {type: 'line'}}
+    };
+
+        
+        setTimeout(function(){
+            var chart1 = new google.visualization.ComboChart(document.getElementById('staffComm'));
+            chart1.draw(data1, options);
+        },200);
+        getStaffCommissionSummary();
+      }
+      
+    function onlyUnique(value, index, self) { 
+          return self.indexOf(value) === index;
+    }
+
+
+      
+      function getStaffCommissionSummary(){
+          
+          var staffs = [];
+          var staffComms = [];
+          var months = [];
+          <apex:repeat value="{!staffs}" var="s">
+              var o = new Object();
+              o["staff"] = '{!s.Alias__c}';
+              staffs.push(o);
+          </apex:repeat>
+          
+          <apex:repeat value="{!staffCommissions}" var="s">
+              var o = new Object();
+              o["staff"] = '{!s.staff}';
+              o["month"] = '{!s.monthN}';
+              o["amount"] = '{!s.amount}';
+              staffComms.push(o);
+              months.push(o.month);
+          </apex:repeat>
+                  
+          
+          var aMonths = months.filter(onlyUnique);
+          
+          var div = $('#commSummary');
+          div.html('');
+          var tbl = '<table class="table table-bordered" style="margin-top:15px"><thead>';
+          tbl+='<tr class="success" style="text-align:right !important; font-family:Calibri; font-size:1.07rem"><th style="text-align:right">Month</th>';
+          
+          for(var i=0; i<staffs.length; i++){
+              tbl+='<th style="text-align:right">'+staffs[i].staff+'</th>';    
+          }
+          tbl+='<th style="text-align:right" class="success">Total</th>';    
+          tbl+='</tr>';
+          tbl+='</thead><tbody>';
+          
+          for(var i=0; i< aMonths.length; i++){
+              var mt=0;
+              var m = aMonths[i];
+              tbl+='<tr style="text-align:right; font-family:Calibri; font-size:1.07rem"><td  class="info" style="text-align:right; font-family:Calibri; font-size:1.07rem">'+m+'</td>';
+              for(var j=0; j< staffComms.length; j++){
+                  var c = staffComms[j];
+                  
+                  if(c.month==m){
+                      for(var k=0; k< staffs.length; k++){
+                          var s = staffs[k];
+                          if(s.staff==c.staff){
+                              mt+=parseFloat(c.amount);
+                             // alert(mt)
+                              tbl+='<td style="text-align:right; font-family:Calibri; font-size:1.07rem">'+format2(c.amount)+'</td>';
+                              
+                          }
+                      }
+                     
+                  }
+              }    
+              tbl+='<td style="text-align:right; font-family:Calibri; font-size:1.07rem" class="danger">'+format2(mt)+'</td>';
+              tbl+='</tr>';
+          }
+          
+          tbl+='<tr class="warning"><td class="info">Total</td>';
+          
+          var gT=0;
+          for(var k=0; k< staffs.length; k++){
+              var mt=0;
+              var s = staffs[k];
+              for(var j=0; j< staffComms.length; j++){
+                  var c = staffComms[j];
+                  if(s.staff==c.staff){
+                      mt+=parseFloat(c.amount);                   
+                  }            
+              }
+              gT+=parseFloat(mt);   
+              tbl+='<td style="text-align:right; font-family:Calibri; font-size:1.07rem">'+format2(mt)+'</td>';
+           }
+                     
+          tbl+='<td style="text-align:right; font-family:Calibri; font-size:1.07rem">Php '+format2(gT)+'</td>'; 
+                  
+          
+          tbl+='</tr></tbody></table>';
+          div.append('<h4>Staff Commission Summary</h4>');
+          div.append(tbl);
+        
+      }
+      
+      function drawChart() {
+         
+         getMonthlyExpenseChart('type'); 
+         getMonthlyExpenseChart('category');          
+         getMonthlyProfitChart();
+         getMonthlyCategoryChart();
+         getMonthlyDayChart();
+         getDayPieChart();
+         getMonthlyStaffCommission();         
+         
+        
+      }
+      
+      setTimeout(function(){
+          loadGoogleChart();
+      },200);
+      
+    </script>
+     
+   </apex:outputPanel>
+   
+   
+   <div class="horizontalTab_Top horizontalTab_Top_2">
+    <ul class="resp-tabs-list clearfix">
+        <li onclick="getMonthlyProfitChart();"><span>Monthly Performance </span></li>
+        <li onclick="getMonthlyCategoryChart();"><span>Services By Type</span></li>
+        <li onclick="getMonthlyDayChart();getDayPieChart();"><span>Daily Service Count</span></li>
+        <li onclick="getMonthlyExpenseChart('category');getMonthlyExpenseChart('type');"><span>Expense Report</span></li>
+        <li onclick="getMonthlyStaffCommission()"><span>Staff Commission</span></li>
+    </ul>
+    <div class="resp-tabs-container">
+        <div class="resp_container">
+            <div class="resp_margin">
+            <div class="row">
+            Year: <apex:selectList required="true" multiselect="false" size="1" label="Year"  
+            value="{!selectedYear}" styleclass="form-control">
+            <apex:selectOptions value="{!yearOptions}"/>
+            <apex:actionSupport rerender="panelScripts" oncomplete="drawChart()" event="onchange"/>
+            </apex:selectList>
+        </div>
+            <div>
+                <div id="profitxxx" class="col-md-4" style="height:500px"/> 
+                <div id='profitSummary' class="col-md-4" style="padding-top:125px"/>
+                <div id="profitPie" class="col-md-4" style="height:500px"/>    
+                
+             </div>            
+                
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            <div id="catxxx" class="col-md-3" style="width:100%; height:500px"/>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+                <div class="col-md-12">
+                    <div id="dayxxx" class="col-md-6" style="width:45%; height:500px"/>
+                    <div id="daypiexxx" class="col-md-6" style="width:45%; height:500px"/>                    
+               </div>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">
+            
+             <div id="expenseCategory" class="col-md-3" style="width:100%; height:500px"/>
+             <div id="expenseType" class="col-md-3" style="width:100%; height:500px"/>
+            </div>
+        </div>
+        <div class="resp_container">
+            <div class="resp_margin">         
+              <div id='commSummary' class="col-md-6" style="padding-top:50px"/>
+             <div id="staffComm" class="col-md-6" style="width:50%; height:500px"/>
+            </div>
+        </div>
+    </div>
+</div>
+</apex:form>
+</apex:component>

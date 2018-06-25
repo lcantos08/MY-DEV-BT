@@ -1,0 +1,95 @@
+<!-- Designed by Maku -->
+<!-- 
+     Converted all tables to CSS Divs. There should be no more problems with the layout.
+     Added other images to the preloader. Removed the SWF on preloader.
+     _beejay 10/02/09 1125hrs
+-->
+
+<apex:page sidebar="false" cache="false" showHeader="false" standardStylesheets="true">
+<style>
+#spacer {
+    position:relative;
+    width:850px;
+    height:100px;
+}
+
+#bodyHead {
+    position:relative;
+    width:850px;
+    height:134px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/Ehead.png')}");
+}
+#body {
+    position:relative;
+    left:0px;
+    overflow:visible;
+    width:850px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/Erepeat.png')}");
+    background-repeat: repeat-y;
+}
+
+#bodyfoot {
+    position:relative;
+    left:0px;
+    width:850px;
+    overflow:visible;
+    height:41px;
+    z-index:2;
+    background-image: url("{!URLFOR($Resource.images_test, 'upload2/Efoot.png')}");
+    
+}
+#Wrapper {
+    height:auto;
+    overflow:visible;
+    position:relative;
+    width:850px;
+    border:1px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+</style>
+
+<head>
+<title>ATHENA</title>
+<script type="text/javascript">
+function preloadIContents() 
+{
+    image16 = new Image();
+    image16.src ="{!URLFOR($Resource.images_test, 'upload2/Ehead.png')}";
+    image17 = new Image();
+    image17.src ="{!URLFOR($Resource.images_test, 'upload2/Erepeat.png')}";
+    image18 = new Image();
+    image18.src ="{!URLFOR($Resource.images_test, 'upload2/Efoot.png')}";
+    image19 = new Image();
+    image19.src ="{!URLFOR($Resource.images_test, 'upload2/BG.jpg')}";
+}
+</script> 
+</head>
+<body background="{!URLFOR($Resource.images_test, 'upload2/BG.jpg')}" onLoad="preloadIContents()">
+
+<div align="center" >
+            <div id="spacer"></div>
+            <div id="bodyHead">
+            <table border="0" width="850" height="134">
+                        <tr>
+                            <td width="634"></td>
+                            <td width="206" align="center">
+                                <font face="arial" size="6"> <div id ="test">&nbsp;</div></font>
+                            </td>
+                        </tr>
+                </table>
+            </div>
+            <div id="body" align="left">
+                <table border="0">
+                        <tr><td width="90"/>
+                                <td><apex:insert name="bodyExam"/></td>
+                        <td width="120"/></tr>
+                    </table>    
+            </div>
+            <div id="bodyfoot"></div>
+</div>
+</body>
+</apex:page>

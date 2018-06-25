@@ -1,0 +1,29 @@
+<apex:page Controller="testController" sidebar="false">
+<apex:pageBlock title="Hello {!$User.FirstName}!">
+You are displaying contacts from the account.
+Click a contact's name to view his or her details.
+</apex:pageBlock>
+<apex:pageBlock title="Contacts">
+<apex:form >
+<apex:dataTable value="{!applications}" var="app" cellPadding="4"
+border="1">
+<apex:column >
+<apex:outputPanel >
+<apex:actionSupport event="onmouseover" rerender="detail">
+<apex:param name="cid" value="{!app.id}"/>
+</apex:actionSupport>
+{!app.Name}
+</apex:outputPanel>
+</apex:column>
+</apex:dataTable>
+</apex:form>
+</apex:pageBlock>
+<apex:outputPanel id="detail">
+<apex:actionStatus startText="Requesting...">
+<apex:facet name="stop">
+<apex:detail subject="{!$CurrentPage.parameters.cid}"
+relatedList="false" title="false"/>
+</apex:facet>
+</apex:actionStatus>
+</apex:outputPanel>
+</apex:page>

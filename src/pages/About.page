@@ -1,0 +1,25 @@
+<apex:page showHeader="false" sidebar="false">
+        <apex:composition template="Template">
+        <apex:define name="header" />
+        <apex:define name="bodyContent">
+        <table border="0" width="660">
+        <tr><td align="left"><font size="5" face="Britannic Bold">About</font><br /></td></tr>
+        </table>
+            <div align="center">
+                <table border="0" width="300">
+                    <tr>
+                    <td align="center"><!--<img src="{!URLFOR($Resource.images_test, 'upload2/logo-1.png')}"/>--></td>
+                    </tr>
+                    <tr>
+                    <td></td>
+                    </tr>
+                    <tr>
+                    <td><apex:flash src="{!URLFOR($Resource.images_test, 'upload2/credits.swf')}" height="250" width="300"/></td>
+                    </tr>
+                </table>
+            </div>
+
+        </apex:define>
+        <apex:define name="footer" />
+        </apex:composition>  
+</apex:page>

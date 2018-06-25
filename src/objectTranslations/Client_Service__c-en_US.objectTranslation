@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Client Service</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Client Services</value>
+    </caseValues>
+    <fields>
+        <label><!-- Client --></label>
+        <name>Client__c</name>
+        <relationshipLabel><!-- Client Services --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Confirmed By --></label>
+        <name>Confirmed_By__c</name>
+    </fields>
+    <fields>
+        <label><!-- Date Time --></label>
+        <name>Date_Time__c</name>
+    </fields>
+    <fields>
+        <label><!-- Discount --></label>
+        <name>Discount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Service Name --></label>
+        <name>Service_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Service --></label>
+        <name>Service__c</name>
+        <relationshipLabel><!-- Client Services --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Therapist --></label>
+        <name>Therapist__c</name>
+        <picklistValues>
+            <masterLabel>Annie</masterLabel>
+            <translation><!-- Annie --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Liza</masterLabel>
+            <translation><!-- Liza --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Lynette</masterLabel>
+            <translation><!-- Lynette --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Verified --></label>
+        <name>Verified__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

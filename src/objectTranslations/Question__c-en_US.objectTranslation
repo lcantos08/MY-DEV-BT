@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Question</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Questions</value>
+    </caseValues>
+    <fields>
+        <label><!-- Active --></label>
+        <name>Active__c</name>
+    </fields>
+    <fields>
+        <label><!-- Difficulty --></label>
+        <name>Difficulty__c</name>
+        <picklistValues>
+            <masterLabel>Advanced</masterLabel>
+            <translation><!-- Advanced --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Basic</masterLabel>
+            <translation><!-- Basic --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Intermediate</masterLabel>
+            <translation><!-- Intermediate --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Num_Asked --></label>
+        <name>Num_Asked__c</name>
+    </fields>
+    <fields>
+        <label><!-- Num_Correct --></label>
+        <name>Num_Correct__c</name>
+    </fields>
+    <fields>
+        <label><!-- Percent_Correct --></label>
+        <name>Percent_Correct__c</name>
+    </fields>
+    <fields>
+        <label><!-- Question --></label>
+        <name>Question__c</name>
+    </fields>
+    <layouts>
+        <layout>Question Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>
